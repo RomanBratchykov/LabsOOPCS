@@ -51,7 +51,7 @@ public class Lab1
         }
         else
         {
-            int nDigit = (number / (int)Math.Pow(10, digit - 1)) % 10;
+            int nDigit = (number / (int)Math.Pow(10, digit - 2)) % 10;
             Console.WriteLine($"number: {number}, digit: {digit}, nDigit: {nDigit}");
         }
         Console.WriteLine("task 12, enter number:");
