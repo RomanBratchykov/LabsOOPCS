@@ -4,6 +4,33 @@ using System.Collections.Generic;
 
 class Lab_2
 {
+    public static void rotateArray(ref List<int> list)
+    {
+        int lastElement = list[list.Count - 1];
+        list.RemoveAt(list.Count - 1);
+        list.Insert(0, lastElement);
+        Console.WriteLine("Rotated array: ");
+        foreach (int el in list)
+        {
+            Console.Write(el + " ");
+        }
+        Console.WriteLine();
+    }
+    public static List<int> sumOfArrays(List<List<int>> listOfLists)
+    {
+        List<int> result = new List<int>();
+        int lenght = listOfLists[0].Count;
+        for (int i = 0; i < lenght; i++)
+        {
+            int sum = 0;
+            foreach (List<int> list in listOfLists)
+            {
+                sum += list[i];
+            }
+            result.Add(sum);
+        }
+        return result;
+    }
     public static void Main()
     {
         Console.WriteLine("Lab 2. Enter number of task 1 - 10, 0 to exit");
@@ -106,7 +133,86 @@ class Lab_2
             break;
             case 2:
                 {
-                    
+                    Console.WriteLine("Enter length of array");
+                    int n = int.Parse(Console.ReadLine());
+                    if (n <= 0)
+                    {
+                        Console.WriteLine("Error: Length must be a positive integer.");
+                        return;
+                    }
+                    List<int> array = new List<int>();
+                    Console.WriteLine("Enter array elements:");
+                    for (int i = 0; i < n; i++)
+                    {
+                        array.Add(int.Parse(Console.ReadLine()));
+                    }
+                    Console.WriteLine("Your array: ");
+                    foreach(int el in array)
+                    {
+                        Console.Write(el + " ");
+                    }
+
+                    Console.WriteLine("\nHow much times you want to rotate your array?");
+                    int k = int.Parse(Console.ReadLine());
+                    if (k < 0)
+                    {
+                        Console.WriteLine("Error: Number of rotations must be a non-negative integer.");
+                        return;
+                    }
+                    List<List<int>> allRotations = new List<List<int>>();
+                    for (int i = 0; i < k; i++)
+                    {
+                        List<int> temp = new List<int>(array);
+                        rotateArray(ref temp);
+                        allRotations.Add(new List<int>(temp));
+                        array = new List<int>(temp);
+                    }
+                    List<int> result = sumOfArrays(allRotations);
+                    Console.WriteLine("Result array after " + k + " rotations and summing:");
+                    foreach (int el in result)
+                    {
+                        Console.Write(el + " ");
+                    }
+
+                }
+            break;
+                case 3:
+                {
+
+                }
+                break;
+            case 4:
+                {
+                }
+                break;
+            case 5:
+                {
+                }
+                break;
+            case 6:
+                {
+                }
+                break;
+
+            case 7:
+                {
+                }
+                break;
+                case 8:
+                {
+                }
+                break;
+            case 9:
+                {
+                }
+                break;
+            case 10:
+                {
+                }
+                break;
+            default:
+                {
+                    Console.WriteLine("Error: Task number must be between 1 and 10.");
                 }
             break;
         }
