@@ -444,6 +444,43 @@ class Lab_2
                 break;
             case 10:
                 {
+                    Console.WriteLine("Enter number sequence(space-separeted)");
+                    List<int> nums = new List<int>();
+                    string input = Console.ReadLine();
+                    if (string.IsNullOrWhiteSpace(input))
+                    {
+                        Console.WriteLine("Error: Input cannot be empty.");
+                        return;
+                    }
+                    nums.AddRange(input.Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(s => int.Parse(s)));
+                   List<string> pairs = new List<string>();
+                    Console.WriteLine("enter number which you want to be difference:");
+                    int difference = int.Parse(Console.ReadLine());
+                    for (int i = 0; i < nums.Count(); i++)
+                    {
+                        for (int j = i + 1; j < nums.Count(); j++)
+                        {
+                            if (Math.Abs(nums[i] - nums[j]) == difference)
+                            {
+                                int a = Math.Min(nums[i], nums[j]);
+                                int b = Math.Max(nums[i], nums[j]);
+                                pairs.Add($"{a},{b}");
+                            }
+                        }
+                    }
+                    if (pairs.Count == 0)
+                    {
+                        Console.WriteLine("No pairs found with the specified difference.");
+                        return;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Result pairs with difference " + difference + ": ");
+                        foreach (string pair in pairs)
+                        {
+                            Console.WriteLine(pair);
+                        }
+                    }
                 }
                 break;
             default:
