@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 
-
 class Lab_2
 {
     public static void rotateArray(ref List<int> list)
@@ -30,6 +29,14 @@ class Lab_2
             result.Add(sum);
         }
         return result;
+    }
+    public static void fillArrayRand(ref List<int> list)
+    {
+        Random rand = new Random();
+        for (int i = 0; i < list.Count; i++)
+        {
+            list[i] = rand.Next(0, 10);
+        }
     }
     public static void Main()
     {
@@ -178,7 +185,42 @@ class Lab_2
             break;
                 case 3:
                 {
-
+                    Console.WriteLine("Enter number of elements in array, in end you will get 4x elements(enter 7 get 42 elements)");
+                    int n = int.Parse(Console.ReadLine());
+                    if (n <= 0)
+                    {
+                        Console.WriteLine("Error: Length must be a positive integer.");
+                        return;
+                    }
+                    List<int> array = new List<int>(new int[n * 4]);
+                    fillArrayRand(ref array);
+                    Console.WriteLine("Your array: ");
+                    foreach (int el in array)
+                    {
+                        Console.Write(el + " ");
+                    }
+                    Console.WriteLine();
+                    List<int> result1 = new List<int>();
+                    result1.AddRange(array.GetRange(0, n));
+                    result1.Reverse();
+                    List<int> result2 = new List<int>();
+                    result2.AddRange(array.GetRange((3*n) - 1, n));
+                    result2.Reverse();
+                    List<int> result = new List<int>();
+                    result.AddRange(result1);
+                    result.AddRange(result2);
+                    array.RemoveRange(0, n);
+                    array.RemoveRange(array.Count - n, n);
+                    for (int i = 0; i < result.Count(); i++)
+                    {
+                        result[i] += array[i];
+                    }
+                    Console.WriteLine("Result array: ");
+                    foreach (int el in result)
+                    {
+                        Console.Write(el + " ");
+                    }
+                    Console.WriteLine();
                 }
                 break;
             case 4:
