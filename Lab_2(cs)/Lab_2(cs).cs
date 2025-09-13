@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 class Lab_2
 {
@@ -38,6 +39,31 @@ class Lab_2
             list[i] = rand.Next(0, 10);
         }
     }
+    public static bool isPrime(int num)
+    {
+        if (num <= 1) return false;
+        for (int i = 2; i <= Math.Sqrt(num); i++)
+        {
+            if (num % i == 0) return false;
+        }
+        return true;
+    }
+    static int CompareLex(List<char> a, List<char> b)
+    {
+        int minLength = Math.Min(a.Count, b.Count);
+
+        for (int i = 0; i < minLength; i++)
+        {
+            if (a[i] != b[i])
+            {
+                return a[i] - b[i]; // < 0 → a < b, > 0 → a > b
+            }
+        }
+
+        // Якщо всі символи однакові → дивимось на довжину
+        return a.Count - b.Count;
+    }
+    
     public static void Main()
     {
         Console.WriteLine("Lab 2. Enter number of task 1 - 10, 0 to exit");
@@ -183,7 +209,7 @@ class Lab_2
 
                 }
             break;
-                case 3:
+            case 3:
                 {
                     Console.WriteLine("Enter number of elements in array, in end you will get 4x elements(enter 7 get 42 elements)");
                     int n = int.Parse(Console.ReadLine());
@@ -204,11 +230,10 @@ class Lab_2
                     result1.AddRange(array.GetRange(0, n));
                     result1.Reverse();
                     List<int> result2 = new List<int>();
-                    result2.AddRange(array.GetRange((3*n) - 1, n));
+                    result2.AddRange(array.GetRange((3*n), n));
                     result2.Reverse();
                     List<int> result = new List<int>();
                     result.AddRange(result1);
-                    result.AddRange(result2);
                     array.RemoveRange(0, n);
                     array.RemoveRange(array.Count - n, n);
                     for (int i = 0; i < result.Count(); i++)
@@ -225,19 +250,105 @@ class Lab_2
                 break;
             case 4:
                 {
+                    Console.WriteLine("Enter a positive integer to get all prime number behind it:");
+                    int n = int.Parse(Console.ReadLine());
+                    if (n < 2)
+                    {
+                        Console.WriteLine("Error: Number must be a higher than value you entered.");
+                        return;
+                    }
+                    for (int i = 2; i < n; i++)
+                    {
+                        if (isPrime(i))
+                        {
+                            Console.Write(i + " ");
+                        }
+                    }
                 }
                 break;
             case 5:
                 {
+                    List<char> charList1 = new List<char>();
+                    List<char> charList2 = new List<char>();
+                    Console.WriteLine("Enter the first array of characters (space-separated):");
+                    string sentence1 = Console.ReadLine();
+                    if (string.IsNullOrWhiteSpace(sentence1))
+                    {
+                        Console.WriteLine("Error: Input cannot be empty.");
+                        return;
+                    }
+                    charList1.AddRange(sentence1.Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(s => s[0]));
+                    Console.WriteLine("Enter the second array of characters (space-separated):");
+                    string sentence2 = Console.ReadLine();
+                    if (string.IsNullOrWhiteSpace(sentence2))
+                    {
+                        Console.WriteLine("Error: Input cannot be empty.");
+                        return;
+                    }
+                    charList2.AddRange(sentence2.Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(s => s[0]));
+                    int res = CompareLex(charList1, charList2);
+                    if (res < 0)
+                    {
+                        Console.WriteLine("The first array is lexicographically smaller than the second.");
+                        Console.WriteLine(new string(charList1.ToArray()));
+                        Console.WriteLine(new string(charList2.ToArray()));
+                    }
+                    
+                    else if (res > 0)
+                    {
+                        Console.WriteLine("The first array is lexicographically greater than the second.");
+                        Console.WriteLine(new string(charList2.ToArray()));
+                        Console.WriteLine(new string(charList1.ToArray()));
+                    }
+                    else
+                    {
+                        Console.WriteLine("Both arrays are lexicographically equal.");
+                        Console.WriteLine(new string(charList1.ToArray()));
+                        Console.WriteLine(new string(charList2.ToArray()));
+                    }
+
                 }
                 break;
             case 6:
                 {
+                    Console.WriteLine("Enter number sequence(space-separeted)");
+                    List<int> nums = new List<int>();
+                    string input = Console.ReadLine();
+                    if (string.IsNullOrWhiteSpace(input))
+                    {
+                        Console.WriteLine("Error: Input cannot be empty.");
+                        return;
+                    }
+                    nums.AddRange(input.Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(s => int.Parse(s)));
+                    int stIndex = 0, len = 1, bestIndex = 0, bestLen = 1;
+                    for (int i = 1; i < nums.Count; i++)
+                    {
+                        if (nums[i] == nums[i - 1])
+                        {
+                            len++;
+                        }
+                        else
+                        {
+                           
+                            stIndex = i;
+                            len = 1;
+                        }
+                        if (len > bestLen)
+                        {
+                            bestLen = len;
+                            bestIndex = stIndex;
+                        }
+                    }
+                    Console.WriteLine("Result sequence: ");
+                    for (int i = bestIndex; i < bestIndex + bestLen; i++)
+                    {
+                        Console.Write(nums[i] + " ");
+                    }
                 }
                 break;
-
             case 7:
                 {
+                    
                 }
                 break;
                 case 8:
