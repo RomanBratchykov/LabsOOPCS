@@ -4,6 +4,15 @@ using System.Diagnostics;
 
 class Lab_2
 {
+    public static Dictionary<char, int> alphabet = new Dictionary<char, int>() { {'a', 0}, };
+    public static void fillDict(ref Dictionary<char, int> dict)
+    {
+        int x = 0;
+        for (char c = 'a'; c <= 'z'; c++)
+        {
+            dict[c] = x++;
+        }
+    }
     public static void rotateArray(ref List<int> list)
     {
         int lastElement = list[list.Count - 1];
@@ -348,15 +357,89 @@ class Lab_2
                 break;
             case 7:
                 {
-                    
+                    Console.WriteLine("Enter number sequence(space-separeted)");
+                    List<int> nums = new List<int>();
+                    string input = Console.ReadLine();
+                    if (string.IsNullOrWhiteSpace(input))
+                    {
+                        Console.WriteLine("Error: Input cannot be empty.");
+                        return;
+                    }
+                    nums.AddRange(input.Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(s => int.Parse(s)));
+                    int stIndex = 0, len = 1, bestIndex = 0, bestLen = 1;
+                    for (int i = 1; i < nums.Count; i++)
+                    {
+                        if (nums[i] > nums[i - 1])
+                        {
+                            len++;
+                        }
+                        else
+                        {
+
+                            stIndex = i;
+                            len = 1;
+                        }
+                        if (len > bestLen)
+                        {
+                            bestLen = len;
+                            bestIndex = stIndex;
+                        }
+                    }
+                    Console.WriteLine("Result sequence: ");
+                    for (int i = bestIndex; i < bestIndex + bestLen; i++)
+                    {
+                        Console.Write(nums[i] + " ");
+                    }
                 }
                 break;
                 case 8:
                 {
+                    Console.WriteLine("Enter number sequence(space-separeted)");
+                    List<int> nums = new List<int>();
+                    string input = Console.ReadLine();
+                    if (string.IsNullOrWhiteSpace(input))
+                    {
+                        Console.WriteLine("Error: Input cannot be empty.");
+                        return;
+                    }
+                    nums.AddRange(input.Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(s => int.Parse(s)));
+                    Dictionary<int, int> frequency = new Dictionary<int, int>();
+                    int bestNum = nums[0];
+                    int bestCount = 0;
+                    foreach (int num in nums)
+                    {
+                        if (frequency.ContainsKey(num))
+                        {
+                            frequency[num]++;
+                        }
+                        else
+                        {
+                            frequency[num] = 1;
+                        }
+                        if (frequency[num] > bestCount)
+                        {
+                            bestCount = frequency[num];
+                            bestNum = num;
+                        }
+                    }
+                    Console.WriteLine("Most frequent number is " + bestNum + " with " + bestCount + " repetitions.");
                 }
                 break;
             case 9:
                 {
+                    fillDict(ref alphabet);
+                    Console.WriteLine("Enter a string:");
+                    string input = Console.ReadLine();
+                    if (string.IsNullOrWhiteSpace(input))
+                    {
+                        Console.WriteLine("Error: Input cannot be empty.");
+                        return;
+                    }
+                    
+                    foreach(char el in input)
+                    {
+                        Console.WriteLine("Your word: " + input + "\n" + el + "->" + alphabet[el]);
+                    }
                 }
                 break;
             case 10:
