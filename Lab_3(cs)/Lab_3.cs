@@ -4,6 +4,35 @@ using System.Collections.Generic;
 
 class Lab_3
 {
+    static string getDepartment(List<Employee> employees)
+    {
+        Dictionary<string, List<Employee>> departments = new Dictionary<string, List<Employee>>();
+        foreach (var employee in employees)
+        {
+            if (!departments.ContainsKey(employee.Department))
+            {
+                departments[employee.Department] = new List<Employee>();
+            }
+            departments[employee.Department].Add(employee);
+        }
+        string bestDepartment = "";
+        decimal highestAverageSalary = 0;
+        foreach (var department in departments)
+        {
+            decimal averageSalary = 0;
+            foreach (var employee in department.Value)
+            {
+                averageSalary += employee.Salary;
+            }
+            averageSalary /= department.Value.Count;
+            if (averageSalary > highestAverageSalary)
+            {
+                highestAverageSalary = averageSalary;
+                bestDepartment = department.Key;
+            }
+        }
+        return bestDepartment;
+    }
     Person person1 = new Person("Pesho", 20);
     Person person2 = new Person("Gosho", 18);
     Person person3 = new Person("Stamat", 43);
@@ -40,7 +69,52 @@ class Lab_3
                 break;
             case 4:
                 {
-
+                    List<Employee> employeesList = new List<Employee>();
+                    Console.WriteLine("Enter number of employees:");
+                    int n = int.Parse(Console.ReadLine());
+                    for (int i = 0; i < n; i++)
+                    {
+                        string[] input = Console.ReadLine().Split();
+                        string name = input[0];
+                        decimal salary = decimal.Parse(input[1]);
+                        string position = input[2];
+                        string department = input[3];
+                        if (input.Length == 4)
+                        {
+                            Employee employee = new Employee(name, salary, position, department);
+                            employeesList.Add(employee);
+                        }
+                        else if (input.Length == 5)
+                        {
+                            if (int.TryParse(input[4], out int age))
+                            {
+                                Employee employee = new Employee(name, salary, position, department, age);
+                                employeesList.Add(employee);
+                            }
+                            else
+                            {
+                                string email = input[4];
+                                Employee employee = new Employee(name, salary, position, department, email);
+                                employeesList.Add(employee);
+                            }
+                        }
+                        else if (input.Length == 6)
+                        {
+                            string email = input[4];
+                            int age = int.Parse(input[5]);
+                            Employee employee = new Employee(name, salary, position, department,age, email);
+                            employeesList.Add(employee);
+                        }
+                    }
+                    string bestDepartment = getDepartment(employeesList);
+                    Console.WriteLine($"Highest Average Salary: {bestDepartment}");
+                    foreach (var employee in employeesList)
+                    {
+                        if (employee.Department == bestDepartment)
+                        {
+                            Console.WriteLine(employee.printEmployee());
+                        }
+                    }
                 }
                 break;
              case 5:
