@@ -37,5 +37,19 @@ namespace Lab_3_cs_
             Volume = 0;
             Efficiency = "n/a";
         }
+        public Engine(string model, decimal power, string efficiency)
+        {
+            Model = model;
+            Power = power;
+            Volume = 0;
+            Efficiency = efficiency;
+        }
+        public Engine(string model, decimal power, decimal volume)
+        {
+            Model = model;
+            Power = power;
+            Volume = volume;
+            Efficiency = "n/a";
+        }
     }
 }

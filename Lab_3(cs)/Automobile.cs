@@ -37,5 +37,29 @@ namespace Lab_3_cs_
             Weight = 1000;
             Color = "n/a";
         }
+        public void showAutomobile()
+        {
+            Console.WriteLine($"{Model}:");
+            Console.WriteLine($"  {Engine.Model}:");
+            Console.WriteLine($"    Power: {Engine.Power}");
+            if (Engine.Volume == 0)
+            {
+                Console.WriteLine($"    Volume: n/a");
+            }
+            else
+            {
+                Console.WriteLine($"    Volume: {Engine.Volume}");
+            }
+            Console.WriteLine($"    Efficiency: {Engine.Efficiency}");
+            if (Weight == 0)
+            {
+                Console.WriteLine($"  Weight: n/a");
+            }
+            else
+            {
+                Console.WriteLine($"  Weight: {Weight}");
+            }
+            Console.WriteLine($"  Color: {Color}");
+        }
     }
 }

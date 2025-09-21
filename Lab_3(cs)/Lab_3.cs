@@ -4,6 +4,17 @@ using System.Collections.Generic;
 
 class Lab_3
 {
+    static Engine getEngine(string input, List<Engine> engines)
+    {
+        foreach (var engine in engines)
+        {
+            if (engine.Model == input)
+            {
+                return engine;
+            }
+        }
+        return null;
+    }
     static string getDepartment(List<Employee> employees)
     {
         Dictionary<string, List<Employee>> departments = new Dictionary<string, List<Employee>>();
@@ -196,7 +207,101 @@ class Lab_3
                 break;
               case 6:
                 {
-
+                    Console.WriteLine("Enter number of engines:");
+                    int n = int.Parse(Console.ReadLine());
+                    List<Engine> engines = new List<Engine>();
+                    for (int i = 0; i < n; i++)
+                    {
+                        Console.WriteLine("Enter engine " + (i + 1) + " (example V8-101 220 )");
+                        string[] input = Console.ReadLine().Split();
+                        if (input is null || input.Length < 2 || input.Length > 4)
+                        {
+                            Console.WriteLine("Invalid input");
+                            return;
+                        }
+                        string model = input[0];
+                        int power = int.Parse(input[1]);
+                        if (input.Length == 2)
+                        {
+                            Engine engine = new Engine(model, power);
+                            engines.Add(engine);
+                        }
+                        else if (input.Length == 3)
+                        {
+                            if (int.TryParse(input[2], out int displacement))
+                            {
+                                Engine engine = new Engine(model, power, displacement);
+                                engines.Add(engine);
+                            }
+                            else
+                            {
+                                string efficiency = input[2];
+                                Engine engine = new Engine(model, power, efficiency);
+                                engines.Add(engine);
+                            }
+                        }
+                        else if (input.Length == 4)
+                        {
+                            int displacement = int.Parse(input[2]);
+                            string efficiency = input[3];
+                            Engine engine = new Engine(model, power, displacement, efficiency);
+                            engines.Add(engine);
+                        }
+                    }
+                    Console.WriteLine("Enter number of cars:");
+                    n = int.Parse(Console.ReadLine());
+                    List<Automobile> cars = new List<Automobile>();
+                    for (int i = 0; i < n; i++)
+                    {
+                        Console.WriteLine("Enter car " + (i + 1) + " using engines from above (example FordFocus V4-33 1300 Silver )");
+                        string[] input = Console.ReadLine().Split();
+                        if (input is null || input.Length < 2 || input.Length > 4)
+                        {
+                            Console.WriteLine("Invalid input");
+                            return;
+                        }
+                        string model = input[0];
+                        foreach (var car in cars)
+                        {
+                            if (car.Model == model)
+                            {
+                                Console.WriteLine("Car already exists");
+                                i--;
+                                continue;
+                            }
+                        }
+                        Engine engine = getEngine(input[1], engines);
+                        if (input.Length == 2)
+                        {
+                            Automobile automobile = new Automobile(model, engine);
+                            cars.Add(automobile);
+                        }
+                        else if (input.Length == 3)
+                        {
+                            if (int.TryParse(input[2], out int weight))
+                            {
+                                Automobile automobile = new Automobile(model, engine, weight, "n/a");
+                                cars.Add(automobile);
+                            }
+                            else
+                            {
+                                string color = input[2];
+                                Automobile automobile = new Automobile(model, engine, 0, color);
+                                cars.Add(automobile);
+                            }
+                        }
+                        else if (input.Length == 4)
+                        {
+                            int weight = int.Parse(input[2]);
+                            string color = input[3];
+                            Automobile automobile = new Automobile(model, engine, weight, color);
+                            cars.Add(automobile);
+                        }
+                    }
+                    foreach (var car in cars)
+                    {
+                        car.showAutomobile();
+                    }
                 }
                 break;
             default:
