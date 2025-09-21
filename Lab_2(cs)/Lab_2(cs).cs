@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 class Lab_2
 {
-    public static Dictionary<char, int> alphabet = new Dictionary<char, int>() { {'a', 0}, };
+    public static Dictionary<char, int> alphabet = new Dictionary<char, int>();
     public static void fillDict(ref Dictionary<char, int> dict)
     {
         int x = 0;
@@ -243,6 +243,7 @@ class Lab_2
                     result2.Reverse();
                     List<int> result = new List<int>();
                     result.AddRange(result1);
+                    result.AddRange(result2);
                     array.RemoveRange(0, n);
                     array.RemoveRange(array.Count - n, n);
                     for (int i = 0; i < result.Count(); i++)
