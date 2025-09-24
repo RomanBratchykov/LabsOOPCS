@@ -111,7 +111,11 @@ static public class Lab_4
                 break;
             case 3:
                 {
+                    Console.WriteLine("Enter department, doctor and patient name");
+                    string[] input = Console.ReadLine().Split(' ');
+                    Hospital hospital = new Hospital();
 
+                    hospital.AddPatient(input[0], input[1], input[2]);
                 }
                 break;
             case 4:
