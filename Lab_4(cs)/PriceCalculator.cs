@@ -19,21 +19,21 @@ namespace Lab_4_cs_
         SecondVisit,
         None
     }
-    internal class PriceCalculatoe
+    internal class PriceCalculator
     {
         decimal priceForDay;
         int amountOfDays;
         Season season;
         Discount discount;
         decimal totalPrice;
-        public PriceCalculatoe(decimal priceForDay, int amountOfDays, Season season, Discount discount)
+        public PriceCalculator(decimal priceForDay, int amountOfDays, Season season, Discount discount)
         {
             this.priceForDay = priceForDay;
             this.amountOfDays = amountOfDays;
             this.season = season;
             this.discount = discount;
         }
-        public PriceCalculatoe(decimal priceForDay, int amountOfDays, Season season)
+        public PriceCalculator(decimal priceForDay, int amountOfDays, Season season)
         {
             this.priceForDay = priceForDay;
             this.amountOfDays = amountOfDays;
