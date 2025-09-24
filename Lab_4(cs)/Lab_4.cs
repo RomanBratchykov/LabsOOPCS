@@ -41,6 +41,8 @@ static public class Lab_4
                 break;
             case 2:
                 {
+                    Console.WriteLine("create booking(format)");
+                    string[] input = Console.ReadLine().Split(' ');
 
                 }
                 break;
