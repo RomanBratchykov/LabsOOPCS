@@ -16,36 +16,64 @@ namespace Lab_4_cs_
     }
     internal class Hospital
     {
-        private List<Doctor> doctors;
-        private List<Patient> patients;
-        public List<Doctor> Doctors
-        {
-            get { return doctors; }
-            set { doctors = value; }
-        }
-        public List<Patient> Patients
-        {
-            get { return patients; }
-            set { patients = value; }
-        }
+        private Dictionary<DepartmentEnum, Department> departments;
+        private Dictionary<string, Doctor> doctors;
+
         public Hospital()
         {
-            doctors = new List<Doctor>();
-            patients = new List<Patient>();
-        }
-        public Hospital(List<Doctor> doctors, List<Patient> patients)
-        {
-            this.doctors = doctors;
-            this.patients = patients;
-        }
-        public void addDoctor(Doctor doctor)
-        {
-            doctors.Add(doctor);
+            departments = new Dictionary<DepartmentEnum, Department>();
+            doctors = new Dictionary<string, Doctor>();
+
+            foreach (DepartmentEnum dep in Enum.GetValues(typeof(DepartmentEnum)))
+            {
+                departments[dep] = new Department(dep);
+            }
         }
 
-        public void addPatient(Patient patient)
+        public void AddPatient(string depName, string doctorName, string patientName)
         {
-            patients.Add(patient);
+            if (!Enum.TryParse(depName, true, out DepartmentEnum dep))
+            {
+                Console.WriteLine($"Unknown department {depName}");
+            }
+
+            if (!doctors.ContainsKey(doctorName))
+                doctors[doctorName] = new Doctor(doctorName);
+
+            var patient = new Patient(patientName);
+
+            if (departments[dep].TryAddPatient(patient))
+            {
+                doctors[doctorName].addPatient(patient);
+            }
+            else
+            {
+                Console.WriteLine($"Patient {patientName} needs to be transfered, there is no place in {dep}");
+            }
+        }
+
+        public void PrintDepartment(string depName)
+        {
+            if (!Enum.TryParse(depName, true, out DepartmentEnum dep)) return;
+
+            foreach (var p in departments[dep].GetAllPatientsInOrder())
+                Console.WriteLine(p.Name);
+        }
+
+
+        public void PrintRoom(string depName, int roomNumber)
+        {
+            if (!Enum.TryParse(depName, true, out DepartmentEnum dep)) return;
+            var room = departments[dep].Rooms[roomNumber - 1];
+            foreach (var p in room.Beds.OrderBy(x => x.Name))
+                Console.WriteLine(p.Name);
+        }
+
+        public void PrintDoctor(string doctorName)
+        {
+            if (!doctors.ContainsKey(doctorName)) return;
+            foreach (var p in doctors[doctorName].Patients.OrderBy(x => x.Name))
+                Console.WriteLine(p.Name);
         }
     }
 }

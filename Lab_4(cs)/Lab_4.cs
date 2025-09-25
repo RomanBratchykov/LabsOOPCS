@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Transactions;
 
 
 namespace Lab_4_cs_;
@@ -111,11 +112,47 @@ static public class Lab_4
                 break;
             case 3:
                 {
-                    Console.WriteLine("Enter department, doctor and patient name");
-                    string[] input = Console.ReadLine().Split(' ');
-                    Hospital hospital = new Hospital();
+                    Console.WriteLine("Enter department, doctor and patient name(Example: Therapy Mr.John Mr.Steve)");
+                    var hospital = new Hospital();
 
-                    hospital.AddPatient(input[0], input[1], input[2]);
+                    string input;
+                    while ((input = Console.ReadLine()) != "Output")
+                    {
+                        var parts = input.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                        if (parts.Length > 3 && parts.Length <= 0)
+                        {
+                            Console.WriteLine("Wrong input");
+                            continue;
+                        }
+                        string department = parts[0];
+                        DepartmentEnum department1;
+                        if (!Enum.TryParse<DepartmentEnum>(department, true, out department1))
+                        {
+                            Console.WriteLine("Wrong department");
+                            continue;
+                        }
+                        string doctor = parts[1];
+                        string patient = parts[2];
+
+                        hospital.AddPatient(department, doctor, patient);
+                    }
+                    Console.WriteLine("Enter commands: department [name of department], department patient [name of patient], doctor [name of doctor]");
+                    while ((input = Console.ReadLine()) != "End")
+                    {
+                        var parts = input.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+                        if (parts.Length == 2 && parts[0].ToLower() == "department")
+                            hospital.PrintDepartment(parts[1]);
+                        else if (parts.Length == 3 && int.TryParse(parts[1], out int room))
+                            hospital.PrintRoom(parts[0], room);
+                        else if (parts.Length == 2 && parts[0].ToLower() == "doctor" )
+                            hospital.PrintDoctor(parts[1]);
+                        else
+                        {
+                            Console.WriteLine("Wrong input");
+                            break;
+                        }
+                    }
                 }
                 break;
             case 4:

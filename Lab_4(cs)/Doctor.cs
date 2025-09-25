@@ -25,5 +25,14 @@ namespace Lab_4_cs_
             this.name = name;
             this.patients = patients;
         }
+        public Doctor(string name)
+        {
+            this.name = name;
+            this.patients = new List<Patient>();
+        }
+        public void addPatient(Patient patient)
+        {
+            this.patients.Add(patient);
+        }
     }
 }

@@ -8,23 +8,11 @@ namespace Lab_4_cs_
 {
     internal class Patient
     {
-        private string name;
-        Doctor doctor;
-        DepartmentEnum department;
-        public string Name
+        public string Name { get; set; }
+
+        public Patient(string name)
         {
-            get { return name; }
-            set { name = value; }
-        }
-        public Doctor Doctor
-        {
-            get { return doctor; }
-            set { doctor = value; }
-        }
-        public DepartmentEnum Department
-        {
-            get { return department; }
-            set { department = value; }
+            Name = name;
         }
     }
 }
