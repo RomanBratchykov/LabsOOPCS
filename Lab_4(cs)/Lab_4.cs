@@ -5,6 +5,13 @@ using System.Transactions;
 namespace Lab_4_cs_;
 static public class Lab_4
 {
+    static void AddItem(Dictionary<string, long> dict, string key, long value)
+    {
+        if (dict.ContainsKey(key))
+            dict[key] += value;
+        else
+            dict[key] = value;
+    }
     static public void Main()
     {
         Console.WriteLine("Choose your task 1-4, 0 for exit");
@@ -157,7 +164,82 @@ static public class Lab_4
                 break;
             case 4:
                 {
+                    Console.WriteLine("Enter size of rucksack");
+                    long capacity = long.Parse(Console.ReadLine());
+                    Console.WriteLine("Enter your treasures");
+                    string[] input = Console.ReadLine().Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
+                    long currentCapacity = 0;
+                    long totalGold = 0;
+                    long totalGem = 0;
+                    long totalCash = 0;
+
+                    Dictionary<string, long> goldItems = new Dictionary<string, long>(StringComparer.OrdinalIgnoreCase);
+                    Dictionary<string, long> gemItems = new Dictionary<string, long>(StringComparer.OrdinalIgnoreCase);
+                    Dictionary<string, long> cashItems = new Dictionary<string, long>(StringComparer.OrdinalIgnoreCase);
+
+                    for (int i = 0; i < input.Length; i += 2)
+                    {
+                        string name = input[i];
+                        long amount = long.Parse(input[i + 1]);
+
+                        string type = null;
+                        if (name.Equals("Gold", StringComparison.OrdinalIgnoreCase))
+                            type = "Gold";
+                        else if (name.Length >= 4 && name.EndsWith("Gem", StringComparison.OrdinalIgnoreCase))
+                            type = "Gem";
+                        else if (name.Length == 3)
+                            type = "Cash";
+
+                        if (type == null)
+                            continue;
+
+                        if (currentCapacity + amount > capacity)
+                            continue;
+
+                        long newGold = totalGold;
+                        long newGem = totalGem;
+                        long newCash = totalCash;
+
+                        if (type == "Gold") newGold += amount;
+                        else if (type == "Gem") newGem += amount;
+                        else if (type == "Cash") newCash += amount;
+
+                        if (newGold < newGem)
+                            continue; 
+                        if (newGem < newCash)
+                            continue; 
+
+
+                        currentCapacity += amount;
+                        if (type == "Gold") totalGold += amount;
+                        else if (type == "Gem") totalGem += amount;
+                        else if (type == "Cash") totalCash += amount;
+
+                        if (type == "Gold")
+                            AddItem(goldItems, name, amount);
+                        else if (type == "Gem")
+                            AddItem(gemItems, name, amount);
+                        else if (type == "Cash")
+                            AddItem(cashItems, name, amount);
+                    }
+
+                    var types = new List<(string Type, Dictionary<string, long> Items, long Total)>();
+
+                    if (goldItems.Count > 0) types.Add(("Gold", goldItems, totalGold));
+                    if (gemItems.Count > 0) types.Add(("Gem", gemItems, totalGem));
+                    if (cashItems.Count > 0) types.Add(("Cash", cashItems, totalCash));
+
+                    foreach (var t in types.OrderByDescending(x => x.Total))
+                    {
+                        Console.WriteLine($"<{t.Type}> ${t.Total}");
+                        foreach (var item in t.Items
+                            .OrderByDescending(x => x.Key, StringComparer.OrdinalIgnoreCase)
+                            .ThenBy(x => x.Value))
+                        {
+                            Console.WriteLine($"##{item.Key} - {item.Value}");
+                        }
+                    }
                 }
                 break;
             case 0:
