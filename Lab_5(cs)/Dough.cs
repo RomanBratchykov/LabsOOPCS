@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lab_5_cs_
+namespace Lab_5
 {
     enum DoughType
     {
@@ -16,15 +16,15 @@ namespace Lab_5_cs_
     }
     internal class Dough
     {
-        private const decimal BaseCaloriesPerGram = 2m;
-        private const decimal WhiteModifier = 1.5m;
-        private const decimal WholegrainModifier = 1.0m;
-        private const decimal CrispyModifier = 0.9m;
-        private const decimal ChewyModifier = 1.1m;
-        private const decimal HomemadeModifier = 1.0m;
+        private const float BaseCaloriesPerGram = 2f;
+        private const float WhiteModifier = 1.5f;
+        private const float WholegrainModifier = 1.0f;
+        private const float CrispyModifier = 0.9f;
+        private const float ChewyModifier = 1.1f;
+        private const float HomemadeModifier = 1.0f;
         private DoughType doughType;
         private BakingTechnique bakingTechnique;
-        private decimal weight;
+        private float weight;
         public DoughType DoughType
         {
             get { return doughType; }
@@ -53,7 +53,7 @@ namespace Lab_5_cs_
                     bakingTechnique = value; 
             }
         }
-        public decimal Weight
+        public float Weight
         {
             get { return weight; }
             set
@@ -65,17 +65,17 @@ namespace Lab_5_cs_
                 weight = value;
             }
         }
-        public decimal Calories => CalculateCalories();
-        public Dough(DoughType doughType, BakingTechnique bakingTechnique, decimal weight)
+        public float Calories => CalculateCalories();
+        public Dough(DoughType doughType, BakingTechnique bakingTechnique, float weight)
         {
             this.DoughType = doughType;
             this.BakingTechnique = bakingTechnique;
             this.Weight = weight;
         }
-        private decimal CalculateCalories()
+        private float CalculateCalories()
         {
-            decimal typeModifier = doughType == DoughType.White ? WhiteModifier : WholegrainModifier;
-            decimal techniqueModifier = bakingTechnique switch
+            float typeModifier = doughType == DoughType.White ? WhiteModifier : WholegrainModifier;
+            float techniqueModifier = bakingTechnique switch
             {
                 BakingTechnique.Crispy => CrispyModifier,
                 BakingTechnique.Chewy => ChewyModifier,
