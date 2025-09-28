@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lab_5_cs_
+namespace Lab_5
 {
     internal class Product
     {

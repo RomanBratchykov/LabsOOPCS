@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lab_5_cs_
+namespace Lab_5
 {
     internal class Person
     {
@@ -54,9 +54,9 @@ namespace Lab_5_cs_
         }
         public Person(string name, decimal money)
         {
-            Name = name;
-            Money = money;
-            Products = new List<Product>();
+            this.Name = name;
+            this.Money = money;
+            this.Products = new List<Product>();
         }
         public void buyProduct(Product product)
         {
