@@ -8,9 +8,8 @@ namespace Lab_6
 {
     internal class GoldenEditionBook : Book
     {
-        public GoldenEditionBook(string title, string author, decimal price) : base(title, author, price)
+        public GoldenEditionBook(string title, string author, decimal price) : base(title, author, (price * 1.3m))
         {
-            price *= 1.3m;
         }
     }
 }

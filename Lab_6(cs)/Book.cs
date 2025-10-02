@@ -54,5 +54,9 @@ namespace Lab_6
             Author = author;
             Price = price;
         }
+        public void showBook()
+        {
+            Console.WriteLine($"{this.Author}, {this.Title}, {this.Price}");
+        }
     }
 }
