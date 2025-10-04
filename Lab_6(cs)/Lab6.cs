@@ -35,7 +35,7 @@ public class Lab_6
             case 2:
                 {
                     Console.WriteLine("Enter student name, surname and faculty(example: john doe 894838), end to stop");
-                    List<Student> students = new List<Student>();
+                    List<Human> humans = new List<Human>();
                     string input = string.Empty;
                     while(true)
                     {
@@ -50,7 +50,7 @@ public class Lab_6
                         try
                         {
                             Student student = new Student(parts[0], parts[1], parts[2]);
-                            students.Add(student);
+                            humans.Add(student);
                         }
                         catch (ArgumentException ae)
                         {
@@ -58,7 +58,6 @@ public class Lab_6
                         }
                     }
                     Console.WriteLine("Enter worker name, surname, salary per week, and work hours, end to stop");
-                    List<Worker> workers = new List<Worker>();
                     while (true)
                     {
                         input = Console.ReadLine();
@@ -72,23 +71,17 @@ public class Lab_6
                         try
                         {
                             Worker worker = new Worker(parts[0], parts[1], decimal.Parse(parts[2]), int.Parse(parts[3]));
-                            workers.Add(worker);
+                            humans.Add(worker);
                         }
                         catch (ArgumentException ae)
                         {
                             Console.WriteLine(ae.Message);
                         }
                     }
-                    Console.WriteLine("Students:");
-                    foreach (var student in students.OrderBy(s => s.FacultyNumber))
+                 
+                    foreach (var human in humans)
                     {
-                        Console.WriteLine(student);
-                        Console.WriteLine();
-                    }
-                    Console.WriteLine("Workers:");
-                    foreach (var worker in workers)
-                    {
-                        Console.WriteLine(worker);
+                        Console.WriteLine(human);
                         Console.WriteLine();
                     }
                 }

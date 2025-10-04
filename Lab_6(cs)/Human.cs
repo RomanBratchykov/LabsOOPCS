@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lab_6;
 
-internal class Human
+internal abstract class Human
 {
     private string name = string.Empty; 
     private string surname = string.Empty; 
@@ -49,5 +49,10 @@ internal class Human
     {
         this.Name = name;
         this.Surname = surname;
+    }
+    public virtual void toString()
+    {
+        Console.WriteLine($"First Name: {this.Name}");
+        Console.WriteLine($"Last Name: {this.Surname}");
     }
 }
