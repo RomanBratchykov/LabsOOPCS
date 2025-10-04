@@ -94,7 +94,39 @@ public class Lab_6
                 }
                 break;
             case 3:
-                throw new NotImplementedException();
+                {
+                    Console.WriteLine("Enter artist, song name and length(first minutes second seconds), example: hower jokes 13 23, end to stop");
+                    RadioStation radioStation = new RadioStation();
+                    string input = string.Empty;
+                    while (true)
+                    {
+                        input = Console.ReadLine();
+                        if (input.ToLower() == "end") break;
+                        string[] parts = input.Split(' ');
+                        if (parts.Length != 4)
+                        {
+                            Console.WriteLine("Invalid input format. Please enter in the format: artist songName minutes seconds");
+                            continue;
+                        }
+                        try
+                        {
+                            TimeSpan timeSpan = new TimeSpan(0, int.Parse(parts[2]), int.Parse(parts[3]));
+                            Song song = new Song(parts[0], parts[1], timeSpan);
+                            radioStation.AddSong(song);
+                            Console.WriteLine("Song added.");
+                        }
+                        catch (InvalidSongException ise)
+                        {
+                            Console.WriteLine(ise.Message);
+                        }
+                        catch (FormatException)
+                        {
+                            Console.WriteLine("Invalid input format for minutes or seconds.");
+                        }
+                    }
+                    Console.WriteLine($"Songs added: {radioStation.Playlist.Count}");
+                    Console.WriteLine($"Playlist length: {radioStation.FullLength.Hours}h {radioStation.FullLength.Minutes}m {radioStation.FullLength.Seconds}s");
+                }
                 break;
             case 4:
                 throw new NotImplementedException();
