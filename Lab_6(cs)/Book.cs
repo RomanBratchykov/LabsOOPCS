@@ -10,7 +10,7 @@ namespace Lab_6
     {
         private string title;
         private string author;
-        private decimal price;
+        protected decimal price;
         public string Title
         {
             get { return title; }
@@ -36,7 +36,7 @@ namespace Lab_6
                 author = value;
             }
         }
-        public decimal Price
+        public virtual decimal Price
         {
             get { return price; }
             set
