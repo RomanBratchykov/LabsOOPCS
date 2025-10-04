@@ -122,7 +122,39 @@ public class Lab_6
                 }
                 break;
             case 4:
-                throw new NotImplementedException();
+                { 
+                    Console.WriteLine("enter food(less than 100 portions) and end to stop");
+                    string input = Console.ReadLine();
+                    if (input.Length > 1000)
+                    {
+                        Console.WriteLine("Too much symbols");
+                        return;
+                    }
+                    string[] foods = input.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                    if (foods.Length > 100)
+                    {
+                        Console.WriteLine("Too much food, Gendalf will burst");
+                        return;
+                    }
+                    var foodFactory = new FoodFactory();
+                    int totalHappiness = 0;
+                        foreach (var food in foods)
+                        {
+                            try
+                            {
+                                var foodItem = FoodFactory.CreateFood(food); 
+                                totalHappiness += foodItem.Happiness;
+                            }
+                            catch (ArgumentException ae)
+                            {
+                                Console.WriteLine(ae.Message);
+                            }
+                        }
+                    MoodFactory moodFactory = new MoodFactory();
+                    Mood mood = moodFactory.CreateMood(totalHappiness);
+                    Console.WriteLine($"Total happiness: {totalHappiness}");
+                    Console.WriteLine($"Mood:{mood}");
+                }
                 break;
             case 0:
                 return;
