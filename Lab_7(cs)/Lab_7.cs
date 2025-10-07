@@ -1,4 +1,4 @@
-﻿using Lab_7.Utopia;
+﻿
 using System;
 using System.Transactions;
 
@@ -64,7 +64,7 @@ internal class Lab_7
                         {
                             case 1:
                                 {
-                                    Console.WriteLine("Enter citizens and robots, end to stop");
+                                    Console.WriteLine("Enter citizens and robots([name, age, id] or [model, id]), end to stop");
                                     List<IEnterable> enterables = new List<IEnterable>();
                                     while (true)
                                     {
@@ -82,11 +82,84 @@ internal class Lab_7
                                             enterables.Add(robot);
                                         }
                                     }
+                                    foreach (var enterable in enterables)
+                                    {
+                                        if (enterable is Citizen citizen)
+                                        {
+                                            citizen.Show();
+                                        }
+                                        else if (enterable is Robot robot)
+                                        {
+                                            robot.Show();
+                                        }
+                                    }
                                     Console.WriteLine("Enter last digits to check");
+                                    string lastDigits = Console.ReadLine();
+                                    Console.WriteLine("Result:");
+                                    foreach (var enterable in enterables)
+                                    {
+                                        if (enterable.Id.EndsWith(lastDigits))
+                                        {
+                                            Console.WriteLine(enterable.Id);
+                                        }
+                                    }
                                 }
                                 break;
                             case 2:
                                 {
+                                    Console.WriteLine("Enter citizens, robots or pets([citizen name, age, id, birth date],[robot model, id], [pet name, birthdate]), end to stop(birthdate format 12/12/1990)");
+                                    List<IShowable> entities = new List<IShowable>();
+                                    while (true)
+                                    {
+                                        string inputStr = Console.ReadLine();
+                                        if (inputStr.ToLower() == "end") break;
+                                        string[] parts = inputStr.Split(' ');
+                                        if (parts[0].ToLower() == "citizen")
+                                        {
+                                            DateTime birthDate;
+                                            if (DateTime.TryParse(parts[4], out birthDate))
+                                            {
+                                                Citizen citizen = new Citizen(parts[1], parts[2], parts[3], birthDate);
+                                                entities.Add(citizen);
+                                            }
+                                            else
+                                            {
+                                                Console.WriteLine("Invalid date format");
+                                            }
+                                        }
+                                        else if (parts[0].ToLower() == "robot")
+                                        {
+                                            Robot robot = new Robot(parts[1], parts[2]);
+                                            entities.Add(robot);
+                                        }
+                                        else if (parts[0].ToLower() == "pet")
+                                        {
+                                            DateTime birthDate;
+                                            if (DateTime.TryParse(parts[2], out birthDate))
+                                            {
+                                                Pet pet = new Pet(parts[1], birthDate);
+                                                entities.Add(pet);
+                                            }
+                                            else
+                                            {
+                                                Console.WriteLine("Invalid date format");
+                                            }
+                                        }
+
+                                    }
+                                    Console.WriteLine("Enter year to check");
+                                    int year = int.Parse(Console.ReadLine());
+                                    Console.WriteLine("Result:");
+                                    foreach (var entity in entities)
+                                    {
+                                        if (entity is IBirthable birthable)
+                                        {
+                                            if (birthable.BirthDate.Year == year)
+                                            {
+                                                Console.WriteLine(birthable.BirthDate.ToShortDateString());
+                                            }
+                                        }
+                                    }
                                 }
                                 break;
                             case 3:
