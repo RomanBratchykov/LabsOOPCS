@@ -19,4 +19,9 @@ namespace Lab_7
     {
         public DateTime BirthDate { get; set; }
     }
+    public interface IBuyer
+    {
+        int Food { get; }
+        void BuyFood();
+    }
 }

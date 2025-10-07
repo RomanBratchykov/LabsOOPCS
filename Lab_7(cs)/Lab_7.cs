@@ -164,6 +164,57 @@ internal class Lab_7
                                 break;
                             case 3:
                                 {
+                                    Console.WriteLine("Enter number of people");
+                                    int n = int.Parse(Console.ReadLine());
+                                    Dictionary<string, IBuyer> people = new Dictionary<string, IBuyer>();
+                                    Console.WriteLine("Enter citizen or rebel([name, age, id, birthdate] or [name, age group])");
+                                    for (int i = 0; i < n; i++)
+                                    {
+                                        string[] parts = Console.ReadLine().Split(' ');
+
+                                        if (parts.Length == 4) 
+                                        {
+                                            DateTime birthDate;
+                                            if (DateTime.TryParse(parts[3], out birthDate))
+                                            {
+                                                DateTime birthdate;
+                                                string name = parts[0];
+                                                string age = parts[1];
+                                                string id = parts[2];
+                                                people[name] = new Citizen(name, age, id, birthDate);
+                                            }
+                                            else
+                                            {
+                                                Console.WriteLine("Invalid date format");
+                                            }
+                                        }
+                                        else if (parts.Length == 3)
+                                        {
+                                            string name = parts[0];
+                                            int age = int.Parse(parts[1]);
+                                            string group = parts[2];
+                                            people[name] = new Rebel(name, age, group);
+                                        }
+                                    }
+                                    Console.WriteLine("Enter who is buying food");
+                                    while (true)
+                                    {
+                                        string name = Console.ReadLine();
+                                        if (name.ToLower() == "end") break;
+
+                                        if (people.ContainsKey(name))
+                                        {
+                                            people[name].BuyFood();
+                                        }
+                                    }
+
+                                    int totalFood = 0;
+                                    foreach (var person in people.Values)
+                                    {
+                                        totalFood += person.Food;
+                                    }
+
+                                    Console.WriteLine(totalFood);
                                 }
                                 break;
                             default:
