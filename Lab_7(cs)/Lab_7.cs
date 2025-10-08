@@ -1,4 +1,5 @@
 ﻿
+using Lab_7_cs_.Military;
 using System;
 using System.Transactions;
 
@@ -11,9 +12,9 @@ internal class Lab_7
         while (true)
         {
             Console.WriteLine("Enter number of task 1-3, 0 for exit");
-            int input = int.Parse(Console.ReadLine());
-            if (input == 0) break;
-            switch (input)
+            int inputTask = int.Parse(Console.ReadLine());
+            if (inputTask == 0) break;
+            switch (inputTask)
             {
                 case 0:
                     return;
@@ -224,7 +225,112 @@ internal class Lab_7
                     }
                     break;
                 case 3:
-                    throw new NotImplementedException();
+                    {
+                        Console.WriteLine("Enter soldiers, help to get info, end to stop");
+                        var soldiers = new Dictionary<int, ISoldier>();
+                        string input;
+
+                        while ((input = Console.ReadLine()) != "end")
+                        {
+                            var parts = input.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                            string type;
+                            int id = 0;
+                            string firstName = string.Empty;
+                            string lastName = string.Empty;
+                            if (parts.Length == 1)
+                            {
+                                type = parts[0];
+                            }
+                            else
+                            {
+                                type = parts[0];
+                                id = int.Parse(parts[1]);
+                                firstName = parts[2];
+                                lastName = parts[3];
+
+                            }
+                                
+
+                            try
+                            {
+                                switch (type)
+                                {
+                                    case "Private":
+                                        {
+                                            decimal salary = decimal.Parse(parts[4]);
+                                            soldiers[id] = new Private(id, firstName, lastName, salary);
+                                        }
+                                        break;
+
+                                    case "LeutenantGeneral":
+                                        {
+                                            decimal salary = decimal.Parse(parts[4]);
+                                            var general = new LeutenantGeneral(id, firstName, lastName, salary);
+                                            foreach (var pid in parts.Skip(5).Select(int.Parse))
+                                                if (soldiers.ContainsKey(pid) && soldiers[pid] is IPrivate p)
+                                                    general.AddPrivate(p);
+                                            soldiers[id] = general;
+                                        }
+                                        break;
+
+                                    case "Engineer":
+                                        {
+                                            decimal salary = decimal.Parse(parts[4]);
+                                            string corps = parts[5];
+                                            var engineer = new Engineer(id, firstName, lastName, salary, corps);
+
+                                            for (int i = 6; i < parts.Length - 1; i += 2)
+                                            {
+                                                string part = parts[i];
+                                                int hours = int.Parse(parts[i + 1]);
+                                                engineer.AddRepair(new Repair(part, hours));
+                                            }
+
+                                            soldiers[id] = engineer;
+                                        }
+                                        break;
+
+                                    case "Commando":
+                                        {
+                                            decimal salary = decimal.Parse(parts[4]);
+                                            string corps = parts[5];
+                                            var commando = new Commando(id, firstName, lastName, salary, corps);
+
+                                            for (int i = 6; i < parts.Length - 1; i += 2)
+                                            {
+                                                string code = parts[i];
+                                                string state = parts[i + 1];
+                                                try { commando.AddMission(new Mission(code, state)); }
+                                                catch { continue; }
+                                            }
+
+                                            soldiers[id] = commando;
+                                        }
+                                        break;
+
+                                    case "Spy":
+                                        {
+                                            int codeNumber = int.Parse(parts[4]);
+                                            soldiers[id] = new Spy(id, firstName, lastName, codeNumber);
+                                        }
+                                        break;
+                                    case "help":
+                                        {
+                                            Console.WriteLine("Private: “Private <id> <firstName> <lastName> <salary>”\r\n• LeutenantGeneral: “LeutenantGeneral <id> <firstName> <lastName> <salary>\r\n<private1Id> <private2Id> … <privateNId>”\r\n• Engineer: “Engineer <id> <firstName> <lastName> <salary> <corps>\r\n<repair1Part> <repair1Hours> … <repairNPart> <repairNHours>”.\r\n• Commando: “Commando <id> <firstName> <lastName> <salary> <corps>\r\n<mission1CodeName> <mission1state> … <missionNCodeName> <missionNstate>”.\r\nSpy: “Spy <id> <firstName> <lastName> <codeNumber>”");
+                                            Console.WriteLine("Enter soldiers, help to get info, end to stop");
+                                        }
+                                        break;
+                                }
+                            }
+                            catch
+                            {
+                                continue;
+                            }
+                        }
+
+                        foreach (var s in soldiers.Values)
+                            Console.WriteLine(s.ToString());
+                    }
                     break;
                 default:
                     Console.WriteLine("Invalid input");
