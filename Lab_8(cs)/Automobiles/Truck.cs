@@ -1,0 +1,57 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Lab_8_cs_.Automobiles
+{
+    internal class Truck : Automobile
+    {
+        public Truck(decimal amountOfFuel, decimal litersPerKm, decimal tankVolume)
+        {
+            AmountOfFuel = amountOfFuel * 0.95m;
+            FuelConsumptionPerKm = litersPerKm + 1.6m;
+            TamkVolume = tankVolume;
+        }
+        public decimal AmountOfFuel { get; set; }
+        public decimal FuelConsumptionPerKm { get; set; }
+        public decimal TamkVolume { get; set; }
+        public decimal MaxDistance
+        {
+            get
+            {
+                return AmountOfFuel / FuelConsumptionPerKm;
+            }
+        }
+        public void Refuel(decimal liters)
+        {
+            if (liters <= 0)
+            {
+                throw new ArgumentException("Liters must be greater than zero.");
+            }
+            if (AmountOfFuel + liters > TamkVolume)
+            {
+                throw new InvalidOperationException("Cannot refuel beyond tank volume.");
+            }
+            AmountOfFuel += liters;
+        }
+        public void Drive(decimal km)
+        {
+            if (km <= 0)
+            {
+                throw new ArgumentException("Distance must be greater than zero.");
+            }
+            decimal requiredFuel = km * FuelConsumptionPerKm;
+            if (requiredFuel > AmountOfFuel)
+            {
+                throw new InvalidOperationException("Not enough fuel to drive the requested distance.");
+            }
+            AmountOfFuel -= requiredFuel;
+        }
+        public void ShowInfo()
+        {
+            Console.WriteLine($"Truck Info: Amount of Fuel = {AmountOfFuel} liters, Fuel Consumption = {FuelConsumptionPerKm} liters/km, Tank Volume = {TamkVolume} liters, Max Distance = {MaxDistance} km");
+        }
+    }
+}
