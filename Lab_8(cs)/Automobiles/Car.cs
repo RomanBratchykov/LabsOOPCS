@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Lab_8_cs_.Automobiles
+
 {
     internal class Car : Automobile
     {
@@ -12,7 +13,12 @@ namespace Lab_8_cs_.Automobiles
         { 
             AmountOfFuel = amountOfFuel;
             FuelConsumptionPerKm = litersPerKm + 0.9m;
-            TamkVolume = tankVolume;
+            if (amountOfFuel > tankVolume)
+            {
+                AmountOfFuel = 0;
+            }
+            else
+                TamkVolume = tankVolume;
         }
         public decimal AmountOfFuel { get; set; }
         public decimal FuelConsumptionPerKm { get; set; }
@@ -35,6 +41,7 @@ namespace Lab_8_cs_.Automobiles
                 throw new InvalidOperationException("Cannot refuel beyond tank volume.");
             }
             AmountOfFuel += liters;
+            Console.WriteLine($"Bus was filled with {liters} l");
         }
         public void Drive(decimal km)
         {
@@ -48,10 +55,11 @@ namespace Lab_8_cs_.Automobiles
                                throw new InvalidOperationException("Not enough fuel to drive the requested distance.");
             }
             AmountOfFuel -= requiredFuel;
+            Console.WriteLine($"Car drove {km} km");
         }
         public void ShowInfo()
         {
-            Console.WriteLine($"Car Info: Amount of Fuel = {AmountOfFuel} liters, Fuel Consumption = {FuelConsumptionPerKm} liters/km, Tank Volume = {TamkVolume} liters, Max Distance = {MaxDistance} km");
+            Console.WriteLine($"Car Info: Amount of Fuel = {AmountOfFuel:F2} liters, Fuel Consumption = {FuelConsumptionPerKm:F2} liters/km, Tank Volume = {TamkVolume:F2} liters, Max Distance = {MaxDistance:F2} km");
         }
     }
 }

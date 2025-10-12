@@ -12,7 +12,12 @@ namespace Lab_8_cs_.Automobiles
         {
             AmountOfFuel = amountOfFuel * 0.95m;
             FuelConsumptionPerKm = litersPerKm + 1.6m;
-            TamkVolume = tankVolume;
+            if (amountOfFuel > tankVolume)
+            {
+                AmountOfFuel = 0;
+            }
+            else
+                TamkVolume = tankVolume;
         }
         public decimal AmountOfFuel { get; set; }
         public decimal FuelConsumptionPerKm { get; set; }
@@ -35,6 +40,7 @@ namespace Lab_8_cs_.Automobiles
                 throw new InvalidOperationException("Cannot refuel beyond tank volume.");
             }
             AmountOfFuel += liters;
+            Console.WriteLine($"Truck was fueled with {liters} l");
         }
         public void Drive(decimal km)
         {
@@ -45,13 +51,14 @@ namespace Lab_8_cs_.Automobiles
             decimal requiredFuel = km * FuelConsumptionPerKm;
             if (requiredFuel > AmountOfFuel)
             {
-                throw new InvalidOperationException("Not enough fuel to drive the requested distance.");
+                throw new InvalidOperationException("Truck needs refueling");
             }
             AmountOfFuel -= requiredFuel;
+            Console.WriteLine($"Truck drove {km} km");
         }
         public void ShowInfo()
         {
-            Console.WriteLine($"Truck Info: Amount of Fuel = {AmountOfFuel} liters, Fuel Consumption = {FuelConsumptionPerKm} liters/km, Tank Volume = {TamkVolume} liters, Max Distance = {MaxDistance} km");
+            Console.WriteLine($"Truck Info: Amount of Fuel = {AmountOfFuel:F2} liters, Fuel Consumption = {FuelConsumptionPerKm:F2} liters/km, Tank Volume = {TamkVolume:F2} liters, Max Distance = {MaxDistance:F2} km");
         }
     }
 }
