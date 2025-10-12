@@ -118,15 +118,14 @@ internal class Lab8
                         }
                         Truck truck = new Truck(decimal.Parse(carParams[0]), decimal.Parse(carParams[1]), decimal.Parse(carParams[2]));
 
-                        Console.WriteLine("Enter bus parameters: amount of fuel, liters per km, tank volume, 1 if there people inside, 0 if none");
+                        Console.WriteLine("Enter bus parameters: amount of fuel, liters per km, tank volume");
                         carParams = Console.ReadLine().Split(' ');
-                        if (carParams.Length != 4)
+                        if (carParams.Length != 3)
                         {
                             Console.WriteLine("Invalid number of parameters. Please enter exactly three parameters.");
                             break;
                         }
-                        bool arePeopleInside = carParams[3] == "1" ? true : false;
-                        Bus bus = new Bus(decimal.Parse(carParams[0]), decimal.Parse(carParams[1]), decimal.Parse(carParams[2]), arePeopleInside);
+                        Bus bus = new Bus(decimal.Parse(carParams[0]), decimal.Parse(carParams[1]), decimal.Parse(carParams[2]));
                         Console.WriteLine("Enter number of commands");
                         int commands = int.Parse(Console.ReadLine());
                         Console.WriteLine("Enter commands in format: Drive/Refuel Car/Truck distance/liters, for bus DriveEmpty/DriveFull/Refuel");
@@ -192,7 +191,7 @@ internal class Lab8
                                 {
                                     if (action[1] == "Bus")
                                     {
-                                        bus = new Bus(bus.AmountOfFuel, bus.FuelConsumptionPerKm - 1.4m, bus.TamkVolume, false);
+                                        bus = new Bus(bus.AmountOfFuel, bus.FuelConsumptionPerKm, bus.TamkVolume);
                                         bus.Drive(decimal.Parse(action[2]));
                                     }
                                     else
@@ -211,7 +210,7 @@ internal class Lab8
                                 {
                                     if (action[1] == "Bus")
                                     {
-                                        bus = new Bus(bus.AmountOfFuel, bus.FuelConsumptionPerKm + 1.4m, bus.TamkVolume, true);
+                                        bus = new Bus(bus.AmountOfFuel, bus.FuelConsumptionPerKm + 1.4m, bus.TamkVolume);
                                         bus.Drive(decimal.Parse(action[2]));
                                     }
                                     else

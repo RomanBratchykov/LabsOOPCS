@@ -8,25 +8,20 @@ namespace Lab_8_cs_.Automobiles;
 
 internal class Bus : Automobile
 {
-    public Bus(decimal amountOfFuel, decimal litersPerKm, decimal tankVolume, bool arePeopleInside)
+    public Bus(decimal amountOfFuel, decimal litersPerKm, decimal tankVolume)
     {
-        if (arePeopleInside)
-        {
-            FuelConsumptionPerKm = litersPerKm + 1.4m;
-        }
-        else
-        {
-            FuelConsumptionPerKm = litersPerKm;
-        }
-        AmountOfFuel = amountOfFuel;
+
+        TamkVolume = tankVolume;
+        FuelConsumptionPerKm = litersPerKm + 0.9m;
         if (amountOfFuel > tankVolume)
         {
             AmountOfFuel = 0;
         }
         else
-            TamkVolume = tankVolume;
-        
+            AmountOfFuel = amountOfFuel;
+
     }
+
     public decimal AmountOfFuel { get; set; }
     public decimal FuelConsumptionPerKm { get; set; }
     public decimal TamkVolume { get; set; }

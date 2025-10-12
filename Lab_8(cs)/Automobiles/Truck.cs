@@ -10,14 +10,14 @@ namespace Lab_8_cs_.Automobiles
     {
         public Truck(decimal amountOfFuel, decimal litersPerKm, decimal tankVolume)
         {
-            AmountOfFuel = amountOfFuel * 0.95m;
+            TamkVolume = tankVolume;
             FuelConsumptionPerKm = litersPerKm + 1.6m;
             if (amountOfFuel > tankVolume)
             {
                 AmountOfFuel = 0;
             }
             else
-                TamkVolume = tankVolume;
+                AmountOfFuel = amountOfFuel * 0.95m; 
         }
         public decimal AmountOfFuel { get; set; }
         public decimal FuelConsumptionPerKm { get; set; }

@@ -10,15 +10,15 @@ namespace Lab_8_cs_.Automobiles
     internal class Car : Automobile
     {
         public Car(decimal amountOfFuel, decimal litersPerKm, decimal tankVolume) 
-        { 
-            AmountOfFuel = amountOfFuel;
+        {
+            TamkVolume = tankVolume;
             FuelConsumptionPerKm = litersPerKm + 0.9m;
             if (amountOfFuel > tankVolume)
             {
                 AmountOfFuel = 0;
             }
             else
-                TamkVolume = tankVolume;
+                AmountOfFuel = amountOfFuel;
         }
         public decimal AmountOfFuel { get; set; }
         public decimal FuelConsumptionPerKm { get; set; }
@@ -41,7 +41,7 @@ namespace Lab_8_cs_.Automobiles
                 throw new InvalidOperationException("Cannot refuel beyond tank volume.");
             }
             AmountOfFuel += liters;
-            Console.WriteLine($"Bus was filled with {liters} l");
+            Console.WriteLine($"Car was filled with {liters} l");
         }
         public void Drive(decimal km)
         {
