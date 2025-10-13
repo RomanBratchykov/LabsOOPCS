@@ -137,23 +137,185 @@ internal class Lab9
                     Console.WriteLine("Enter amount");
                     int n = int.Parse(Console.ReadLine());
 
-                    List<Box<int>> listStr = new List<Box<int>>();
-                    for (int i = 0; i < n; i++)
+                    List<Box<double>> listStr = new List<Box<double>>();
+                    for (double i = 0; i < n; i++)
                     {
-                        int input = int.Parse(Console.ReadLine());
-                        listStr.Add(new Box<int>(input));
+                        double input = double.Parse(Console.ReadLine());
+                        listStr.Add(new Box<double>(input));
                     }
                     Console.WriteLine("Enter element to compare");
-                    Box<int> box = new Box<int>(int.Parse(Console.ReadLine()));
+                    Box<double> box = new Box<double>(double.Parse(Console.ReadLine()));
                     int count = CountGreaterThan(listStr, box);
                     Console.WriteLine(count);
                 }
                 break;
             case 8:
-                { }
+                { 
+                    CustomList<string> list = new CustomList<string>();
+                    Console.WriteLine("Write commands, help to get info, end to stop");
+                    while (true)
+                    {
+                        
+                        string command = Console.ReadLine();
+                        if (command == "end") break;
+                        else if (command == "help")
+                        {
+                            Console.WriteLine("Available commands:\nAdd <element>\nRemove <index>\nContains <element>\nSwap <index1> <index2>\nGreater <element>\nMax\nMin\nPrint");
+                            continue;
+                        }
+                        string[] parts = command.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                        parts[0] = parts[0].ToLower();
+                        switch (parts[0])
+                        {
+                            case "add":
+                                list.Add(parts[1]);
+                                break;
+                            case "remove":
+                                try
+                                {
+                                    string removed = list.Remove(int.Parse(parts[1]));
+                                    Console.WriteLine($"Removed: {removed}");
+                                }
+                                catch (ArgumentOutOfRangeException e)
+                                {
+                                    Console.WriteLine(e.Message);
+                                }
+                                break;
+                            case "contains":
+                                Console.WriteLine(list.Contains(parts[1]));
+                                break;
+                            case "swap":
+                                try
+                                {
+                                    list.Swap(int.Parse(parts[1]), int.Parse(parts[2]));
+                                }
+                                catch (ArgumentOutOfRangeException e)
+                                {
+                                    Console.WriteLine(e.Message);
+                                }
+                                break;
+                            case "greater":
+                                Console.WriteLine(list.CountGreaterThan(parts[1]));
+                                break;
+                            case "max":
+                                try
+                                {
+                                    Console.WriteLine(list.Max());
+                                }
+                                catch (InvalidOperationException e)
+                                {
+                                    Console.WriteLine(e.Message);
+                                }
+                                break;
+                            case "min":
+                                try
+                                {
+                                    Console.WriteLine(list.Min());
+                                }
+                                catch (InvalidOperationException e)
+                                {
+                                    Console.WriteLine(e.Message);
+                                }
+                                break;
+                            case "print":
+                                list.Print();
+                                break;
+                            default:
+                                Console.WriteLine("Unknown command");
+                                break;
+                        }
+                    }
+                }
                 break;
             case 9:
-                { }
+                {
+                    CustomList<string> list = new CustomList<string>();
+                    Console.WriteLine("Write commands, help to get info, end to stop");
+                    while (true)
+                    {
+
+                        string command = Console.ReadLine();
+                        if (command == "end") break;
+                        else if (command == "help")
+                        {
+                            Console.WriteLine("Available commands:\nAdd <element>\nRemove <index>\nContains <element>\nSwap <index1> <index2>\nGreater <element>\nMax\nMin\nPrint\nSort");
+                            continue;
+                        }
+                        string[] parts = command.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                        parts[0] = parts[0].ToLower();
+                        switch (parts[0])
+                        {
+                            case "add":
+                                list.Add(parts[1]);
+                                break;
+                            case "remove":
+                                try
+                                {
+                                    string removed = list.Remove(int.Parse(parts[1]));
+                                    Console.WriteLine($"Removed: {removed}");
+                                }
+                                catch (ArgumentOutOfRangeException e)
+                                {
+                                    Console.WriteLine(e.Message);
+                                }
+                                break;
+                            case "contains":
+                                Console.WriteLine(list.Contains(parts[1]));
+                                break;
+                            case "swap":
+                                try
+                                {
+                                    list.Swap(int.Parse(parts[1]), int.Parse(parts[2]));
+                                }
+                                catch (ArgumentOutOfRangeException e)
+                                {
+                                    Console.WriteLine(e.Message);
+                                }
+                                break;
+                            case "greater":
+                                Console.WriteLine(list.CountGreaterThan(parts[1]));
+                                break;
+                            case "max":
+                                try
+                                {
+                                    Console.WriteLine(list.Max());
+                                }
+                                catch (InvalidOperationException e)
+                                {
+                                    Console.WriteLine(e.Message);
+                                }
+                                break;
+                            case "min":
+                                try
+                                {
+                                    Console.WriteLine(list.Min());
+                                }
+                                catch (InvalidOperationException e)
+                                {
+                                    Console.WriteLine(e.Message);
+                                }
+                                break;
+                            case "print":
+                                list.Print();
+                                break;
+                            case "sort":
+                                {
+                                    try
+                                    {
+                                        Sorter.Sort(list);
+                                    }
+                                    catch (InvalidOperationException e)
+                                    {
+                                        Console.WriteLine(e.Message);
+                                    }
+                                }
+                                break;
+                            default:
+                                Console.WriteLine("Unknown command");
+                                break;
+                        }
+                    }
+                }
                 break;
             case 10:
                 { }
