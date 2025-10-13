@@ -5,6 +5,17 @@ using System.Collections.Generic;
 namespace Lab_9_cs_;
 internal class Lab9
 {
+    public static int CountGreaterThan<T>(List<Box<T>> list, Box<T> element)
+       where T : IComparable<T>
+    {
+        int count = 0;
+        foreach (var item in list)
+        {
+            if (item.CompareTo(element) > 0)
+                count++;
+        }
+        return count;
+    }
     internal static void Main()
     {
         Console.WriteLine("Enter number of task 1-10, 0 for exit");
@@ -105,10 +116,38 @@ internal class Lab9
                 }
                 break;
             case 6:
-                { }
+                {
+                    Console.WriteLine("Enter amount");
+                    int n = int.Parse(Console.ReadLine());
+
+                    List<Box<string>> listStr = new List<Box<string>>();
+                    for (int i = 0; i < n; i++)
+                    {
+                        string input = Console.ReadLine();
+                        listStr.Add(new Box<string>(input));
+                    }
+                    Console.WriteLine("Enter element to compare");
+                    Box<string> box = new Box<string>(Console.ReadLine());
+                    int count = CountGreaterThan(listStr, box);
+                    Console.WriteLine(count);
+                }
                 break;
             case 7:
-                { }
+                {
+                    Console.WriteLine("Enter amount");
+                    int n = int.Parse(Console.ReadLine());
+
+                    List<Box<int>> listStr = new List<Box<int>>();
+                    for (int i = 0; i < n; i++)
+                    {
+                        int input = int.Parse(Console.ReadLine());
+                        listStr.Add(new Box<int>(input));
+                    }
+                    Console.WriteLine("Enter element to compare");
+                    Box<int> box = new Box<int>(int.Parse(Console.ReadLine()));
+                    int count = CountGreaterThan(listStr, box);
+                    Console.WriteLine(count);
+                }
                 break;
             case 8:
                 { }

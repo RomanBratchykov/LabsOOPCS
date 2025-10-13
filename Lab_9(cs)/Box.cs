@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lab_9_cs_
 {
-    internal class Box<T>
+    internal class Box<T> where T : IComparable<T>
     {
         T value;
         public T Value { get; set; }
@@ -14,6 +14,10 @@ namespace Lab_9_cs_
         public Box(T value)
         {
             this.Value = value;
+        }
+        public int CompareTo(Box<T> other)
+        {
+            return Value.CompareTo(other.Value);
         }
 
         public override string ToString()
