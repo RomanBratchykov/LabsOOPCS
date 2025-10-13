@@ -317,10 +317,7 @@ internal class Lab9
                     }
                 }
                 break;
-            case 10:
-                { }
                 break;
-            default:
                 {
                     Console.WriteLine("Wrong number of task");
                 }

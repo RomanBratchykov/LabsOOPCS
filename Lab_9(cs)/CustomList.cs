@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Lab_9_cs_
 {
-    internal class CustomList<T> where T : IComparable<T>
+    internal class CustomList<T> : IEnumerable<T> where T : IComparable<T>
     {
         private List<T> items = new List<T> { };
 
@@ -56,11 +57,20 @@ namespace Lab_9_cs_
         }
         public void Print()
         {
-            foreach (var item in items)
+            foreach (T item in this)
             {
                 Console.WriteLine(item);
             }
         }
         internal List<T> Items => items;
+        public IEnumerator<T> GetEnumerator()
+        {
+            return items.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
     }
 }
