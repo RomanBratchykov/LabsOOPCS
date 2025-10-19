@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Lab_10_cs_
 {
-    internal class ListyIterator<T>
+    internal class ListyIterator<T> : IEnumerable<T>
     {
         List<T> collection;
         int currentIndex;
@@ -15,10 +16,6 @@ namespace Lab_10_cs_
         {
             collection = items;
             currentIndex = 0;
-            if (collection is null)
-            {
-                Console.WriteLine("Collection is null");
-            }
         }
         public ListyIterator()
         {
@@ -45,6 +42,29 @@ namespace Lab_10_cs_
                 throw new InvalidOperationException("Invalid Operation!");
             }
             Console.WriteLine(collection[currentIndex]);
+        }
+        public void PrintAll()
+        {
+            if (collection.Count == 0)
+            {
+                throw new InvalidOperationException("Collection is empty!");
+            }
+            foreach (var item in collection)
+            {
+                Console.WriteLine(item );
+            }
+        }
+        public IEnumerator<T> GetEnumerator()
+        {
+            for (int i = 0; i < collection.Count; i++)
+            {
+                yield return collection[i];
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }
