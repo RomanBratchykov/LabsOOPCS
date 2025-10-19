@@ -267,7 +267,77 @@ class Lab10
                 }
                 break;
             case 5:
-                throw new NotImplementedException();
+                {
+                    Console.WriteLine("Enter number of commands");
+                    int numOfCommands = int.Parse(Console.ReadLine());
+                    var clinics = new Dictionary<string, VetClinic>();
+                    var pets = new Dictionary<string, Animal>();
+                    for (int i = 0; i < numOfCommands; i++)
+                    {
+                        string input = Console.ReadLine();
+                        List<string> parts = new List<string>(input.Split(' ', StringSplitOptions.RemoveEmptyEntries));
+                        string command = parts[0].ToLower();
+                        try
+                        {
+                            if (command == "create")
+                            {
+                                if (parts[1] == "pet")
+                                {
+                                    string name = parts[2];
+                                    int age = int.Parse(parts[3]);
+                                    string species = parts[4];
+                                    Animal pet = new Animal(name, age, species);
+                                    pets[name] = pet;
+                                }
+                                else if (parts[1] == "clinic")
+                                {
+                                    string name = parts[2];
+                                    int numberOfRooms = int.Parse(parts[3]);
+                                    VetClinic clinic = new VetClinic(numberOfRooms, name);
+                                    clinics[name] = clinic;
+                                }
+                            }
+                            else if (command == "add")
+                            {
+                                string petName = parts[1];
+                                string clinicName = parts[2];
+                                bool result = clinics[clinicName].AddAnimal(pets[petName]);
+                                Console.WriteLine(result);
+                            }
+                            else if (command == "release")
+                            {
+                                string clinicName = parts[1];
+                                bool result = clinics[clinicName].Release();
+                                Console.WriteLine(result);
+                            }
+                            else if (command == "hasemptyrooms")
+                            {
+                                string clinicName = parts[1];
+                                bool result = clinics[clinicName].HasEmptyRooms();
+                                Console.WriteLine(result);
+                            }
+                            else if (command == "print")
+                            {
+                                string clinicName = parts[1];
+                                if (parts.Count == 2)
+                                {
+                                    clinics[clinicName].PrintRooms();
+                                }
+                                else if (parts.Count == 3)
+                                {
+                                    int roomNumber = int.Parse(parts[2]);
+                                    clinics[clinicName].PrintRoom(roomNumber);
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                            i--;
+                        }
+                    }
+
+                }
                 break;
             case 0:
                 return;
