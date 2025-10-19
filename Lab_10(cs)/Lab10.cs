@@ -144,7 +144,65 @@ class Lab10
                 }
                 break;
             case 3:
-                throw new NotImplementedException();
+                {
+                    Console.WriteLine("Enter persons by example John 23 Chernivtsi, end to stop");
+                    List<Person> people = new List<Person>();
+                    while (true)
+                    {
+                        string input = Console.ReadLine();
+                        if (input.ToLower() == "end")
+                        {
+                            break;
+                        }
+                        List<string> parts = new List<string>(input.Split(' ', StringSplitOptions.RemoveEmptyEntries));
+                        if (parts.Count != 3)
+                        {
+                            Console.WriteLine("Invalid input. Please enter in format: Name Age Town");
+                            continue;
+                        }
+                        string name = parts[0];
+                        if (!int.TryParse(parts[1], out int age))
+                        {
+                            Console.WriteLine("Invalid age. Please enter a valid integer for age.");
+                            continue;
+                        }
+                        string town = parts[2];
+                        Person person = new Person(name, age, town);
+                        people.Add(person);
+                    }
+                    Console.WriteLine("Your list with indexes:");
+                    for (int i = 0; i < people.Count; i++)
+                    {
+                        Console.WriteLine($"{i + 1}.{people[i].Name} {people[i].Age} {people[i].Town}");
+                    }
+                    Console.WriteLine("Enter index of person to compare");
+                    int index = int.Parse(Console.ReadLine()) - 1;
+                    if (index < 0 || index >= people.Count)
+                    {
+                        Console.WriteLine("Invalid index.");
+                        return;
+                    }
+                    Person personToCompare = people[index];
+                    int equalCount = 0;
+                    int notEqualCount = 0;
+                    foreach (var person in people)
+                    {
+                        if (person.CompareTo(personToCompare) == 0)
+                        {
+                            equalCount++;
+                        }
+                        else
+                            notEqualCount++;
+                    }
+                    if (equalCount == 1)
+                    {
+                        Console.WriteLine("No matches");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"{equalCount} {notEqualCount} {people.Count}");
+                    }
+                }
                 break;
             case 4:
                 throw new NotImplementedException();
