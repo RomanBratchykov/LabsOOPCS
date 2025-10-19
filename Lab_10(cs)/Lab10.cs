@@ -17,6 +17,10 @@ class Lab10
                     ListyIterator<string> listyIterator = null;
                     while (true)
                     {
+                        if (counterOfCommands > 100)
+                        {
+                            Console.WriteLine("Too many commands entered. Exiting.");
+                        }
                         string input = Console.ReadLine();
                         List<string> parts = new List<string>(input.Split(' ', StringSplitOptions.RemoveEmptyEntries));
                         if (parts[0].ToLower() == "create" && counterOfCommands == 0)
@@ -78,6 +82,10 @@ class Lab10
                     ListyIterator<string> listyIterator = null;
                     while (true)
                     {
+                        if (counterOfCommands > 100)
+                        {
+                            Console.WriteLine("Too many commands entered. Exiting.");
+                        }
                         string input = Console.ReadLine();
                         List<string> parts = new List<string>(input.Split(' ', StringSplitOptions.RemoveEmptyEntries));
                         if (parts[0].ToLower() == "create" && counterOfCommands == 0)
@@ -205,7 +213,58 @@ class Lab10
                 }
                 break;
             case 4:
-                throw new NotImplementedException();
+                {
+                    Console.WriteLine("Enter number of people:");
+                    int numberOfPeople = int.Parse(Console.ReadLine());
+                    if (numberOfPeople > 100 || numberOfPeople <= 0)
+                    {
+                        Console.WriteLine("Number of people must be between 1 and 100.");
+                        return;
+                    }
+                    var nameSet = new SortedSet<PersonSecond>(new NameComparer());
+                    var ageSet = new SortedSet<PersonSecond>(new AgeComparer());
+                    for (int i = 0; i < numberOfPeople; i++)
+                    {
+                        try
+                        {
+                            string input = Console.ReadLine();
+                            List<string> parts = new List<string>(input.Split(' ', StringSplitOptions.RemoveEmptyEntries));
+                            if (parts.Count != 2)
+                            {
+                                Console.WriteLine("Invalid input. Please enter in format: Name Age");
+                                i--;
+                                continue;
+                            }
+
+                            string name = parts[0];
+                            if (!int.TryParse(parts[1], out int age))
+                            {
+                                Console.WriteLine("Invalid age. Please enter a valid integer for age.");
+                                i--;
+                                continue;
+                            }
+                            PersonSecond person = new PersonSecond(name, age);
+                            nameSet.Add(person);
+                            ageSet.Add(person);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                            i--;
+                            continue;
+                        }
+                    }
+                    Console.WriteLine("Sorted by name:");
+                    foreach (var person in nameSet)
+                    {
+                        person.PrintPerson();
+                    }
+                    Console.WriteLine("Sorted by age:");
+                    foreach (var person in ageSet)
+                    {
+                        person.PrintPerson();
+                    }
+                }
                 break;
             case 5:
                 throw new NotImplementedException();
