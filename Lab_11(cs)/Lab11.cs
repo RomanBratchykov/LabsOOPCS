@@ -112,6 +112,24 @@ public class Lab11
                     }
                     break;       
                 case 3:
+                    {
+                        Console.WriteLine("Write starter colors of traffic light (Red Green Yellow, etc)");
+                        List<string> light = Console.ReadLine().Split(' ').ToList();
+                        Console.WriteLine("Enter number of times to switch");
+                        int times = int.Parse(Console.ReadLine());
+                        for (int i = 0; i < times; i++)
+                        {
+                            string currentLight = light[2];
+                            light.RemoveAt(2);
+                            light.Insert(0, currentLight);
+                            foreach (var color in light)
+                            {
+                                Console.Write(color + " ");
+                            }
+                            Console.WriteLine();
+                        }
+
+                    }
                     break;
                 case 4:
                     break;
