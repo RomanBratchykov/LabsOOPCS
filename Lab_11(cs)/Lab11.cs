@@ -4,6 +4,7 @@ using System.Reflection;
 using P02_BlackBoxInteger;
 using System.Diagnostics;
 using Lab_11_cs_.InfernoInfinity;
+using Lab_11_cs_;
 
 public class Lab11
 {
@@ -277,6 +278,37 @@ public class Lab11
                     break;
                 case 5:
                     {
+                       Console.WriteLine("Enter commands author/revision/description/reviewers, end to stop");
+                        Type weaponType = typeof(Weapon);
+                        CustomAttribute attr = (CustomAttribute)Attribute.GetCustomAttribute(weaponType, typeof(CustomAttribute));
+
+                        string input;
+                        while ((input = Console.ReadLine()) != null)
+                        {
+                            if (input.ToLower() == "end")
+                                break;
+
+                            switch (input.ToLower())
+                            {
+                                case "author":
+                                    Console.WriteLine($"Author: {attr.Author}");
+                                    break;
+                                case "revision":
+                                    Console.WriteLine($"Revision: {attr.Revision}");
+                                    break;
+                                case "description":
+                                    Console.WriteLine($"Class description: {attr.Description}");
+                                    break;
+                                case "reviewers":
+                                    Console.WriteLine($"Reviewers: {string.Join(", ", attr.Reviewers)}");
+                                    break;
+                                default:
+                                    {
+                                        Console.WriteLine("Wrong command");
+                                    }
+                                    break;
+                            }
+                        }
 
                     }
                     break;

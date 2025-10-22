@@ -33,7 +33,7 @@ namespace Lab_11_cs_.InfernoInfinity
         Perfect = 5,
         Flawless = 10
     }
-
+    [Custom("Pesho", 3, "Used for C# OOP Advanced Course - Enumerations and Attributes.", new string[] { "Петро","Степан"})]
     internal class Weapon
     {
         string name;
