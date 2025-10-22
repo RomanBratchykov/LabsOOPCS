@@ -2,6 +2,8 @@
 using System;
 using System.Reflection;
 using P02_BlackBoxInteger;
+using System.Diagnostics;
+using Lab_11_cs_.InfernoInfinity;
 
 public class Lab11
 {
@@ -132,8 +134,151 @@ public class Lab11
                     }
                     break;
                 case 4:
+                    {
+                        Console.WriteLine("Create your weapon, add gemstones and remove them\nWrite 'help' to get info, end to stop");
+                        List<Weapon> weapons = new List<Weapon>();
+                        while (true){
+                            string input = Console.ReadLine();  
+                            if(input.ToLower() == "end"){
+                                break;
+                            }
+                            if(input.ToLower() == "help"){
+                                Console.WriteLine("To create weapon write: Create;{weaponRarity} {weaponType};{weaponName}\n" +
+                                "To add gem write: Add;{weapon name};{socketIndex};{gemType} {gemClarity}\n" +
+                                "To remove gem write: Remove;{weapon name};{socketIndex}\n" +
+                                "To print weapon write: Print;{weapon name}");
+                                continue;
+                            }
+                            string[] commandParts = input.Split(";");
+                            string command = commandParts[0];
+                            switch (command.ToLower())
+                            {
+                                case "create":
+                                    {
+                                        if (commandParts.Length != 3)
+                                        {
+                                            Console.WriteLine("Wrong input for create command");
+                                            continue;
+                                        }
+                                        string weaponInfo = commandParts[1];
+                                        string weaponName = commandParts[2];
+                                        try
+                                        {
+                                            Weapon weapon = new Weapon(weaponInfo, weaponName);
+                                            weapons.Add(weapon);
+                                        }
+                                        catch (ArgumentException ae)
+                                        {
+                                            Console.WriteLine(ae.Message);
+                                        }
+                                    }
+                                    break;
+                                case "add":
+                                    {
+                                        if (commandParts.Length != 4)
+                                        {
+                                            Console.WriteLine("Wrong input for add command");
+                                            continue;
+                                        }
+                                        string weaponName = commandParts[1];
+                                        Weapon currentWeapon;
+                                        bool hasFound = false;
+                                        foreach (var w in weapons)
+                                        {
+                                            if (w.Name == weaponName)
+                                            {
+                                                currentWeapon = w;
+                                                int socketIndex = int.Parse(commandParts[2]);
+                                                hasFound = true;
+                                                string gemInput = commandParts[3];
+                                                try
+                                                {
+                                                    currentWeapon.AddGem(socketIndex, gemInput);
+                                                }
+                                                catch (ArgumentException ae)
+                                                {
+                                                    Console.WriteLine(ae.Message);
+                                                }
+                                                break;
+                                            }
+                                        }
+                                        if (!hasFound)
+                                        {
+                                            Console.WriteLine("Weapon not found");
+                                        }
+                                    }
+                                    break;
+                                case "remove":
+                                    {
+                                        if (commandParts.Length != 3)
+                                        {
+                                            Console.WriteLine("Wrong input for remove command");
+                                            continue;
+                                        }
+                                        string weaponName = commandParts[1];
+                                        Weapon currentWeapon;
+                                        bool hasFound = false;
+                                        foreach (var w in weapons)
+                                        {
+                                            if (w.Name == weaponName)
+                                            {
+                                                currentWeapon = w;
+                                                hasFound = true;
+                                                int socketIndex = int.Parse(commandParts[2]);
+                                                try
+                                                {
+                                                    currentWeapon.RemoveGem(socketIndex);
+                                                }
+                                                catch (ArgumentException ae)
+                                                {
+                                                    Console.WriteLine(ae.Message);
+                                                }
+                                                break;
+                                            }
+                                        }
+                                        if (!hasFound)
+                                        {
+                                            Console.WriteLine("Weapon not found");
+                                        }
+                                        
+                                    }
+                                    break;
+                                case "print":
+                                    {
+                                        if (commandParts.Length != 2)
+                                        {
+                                            Console.WriteLine("Wrong input for remove command");
+                                            continue;
+                                        }
+                                        string weaponName = commandParts[1];
+                                        Weapon currentWeapon;
+                                        bool hasFound = false;
+                                        foreach (var w in weapons)
+                                        {
+                                            if (w.Name == weaponName)
+                                            {
+                                                hasFound = true;
+                                                Console.WriteLine(w.ToString());
+                                            }
+                                        }
+                                        if (!hasFound)
+                                        {
+                                            Console.WriteLine("Weapon not found");
+                                        }
+                                    }
+                                    break;
+                                default:
+                                    Console.WriteLine("Wrong command");
+                                    break;
+                            }
+
+                        }
+                    }
                     break;
                 case 5:
+                    {
+
+                    }
                     break;
                     default:
                     Console.WriteLine("Wrong number of task");
