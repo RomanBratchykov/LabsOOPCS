@@ -30,7 +30,7 @@ internal class Lab9
                     Box<int> element1 = new Box<int>(int.Parse(Console.ReadLine()));
                     Box<double> element2 = new Box<double>(double.Parse(Console.ReadLine()));
                     Box<string> element3 = new Box<string>(Console.ReadLine());
-                    Console.WriteLine($"{element1.ToString()}\n {element2.ToString()}\n{element3.ToString()}");
+                    Console.WriteLine($"{element1.ToString()}\n{element2.ToString()}\n{element3.ToString()}");
                 }
                 break;
             case 2:
