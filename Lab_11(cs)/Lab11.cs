@@ -1,6 +1,7 @@
 ﻿using P01_HarvestingFields;
 using System;
 using System.Reflection;
+using P02_BlackBoxInteger;
 
 public class Lab11
 {
@@ -15,7 +16,7 @@ public class Lab11
             {
                 case 1:
                     {
-                        Console.WriteLine("Enter commands to print fields: private/pritected/public/all, harvest to stop");
+                        Console.WriteLine("Enter commands to print fields: private/protected/public/all, harvest to stop");
                         while (true)
                         {
                             string input = Console.ReadLine();
@@ -58,18 +59,58 @@ public class Lab11
                                         Console.WriteLine($"{field.Attributes.ToString().ToLower().Replace("family", "protected")} {field.FieldType.Name} {field.Name}");
                                     }
                                     break;
-                                                                    default:
+                                default:
                                     Console.WriteLine("wrong input");
                                     break;
-
-
                             }
                         }
                         
                     }
                     break;
                 case 2:
-                    break;
+                    {
+                        Type type = typeof(BlackBoxInteger);
+                        ConstructorInfo ctor = type.GetConstructor(
+                        BindingFlags.NonPublic | BindingFlags.Instance,
+                        null,
+                        new Type[] { typeof(int) },
+                        null
+                        );
+                        BlackBoxInteger blackBox = (BlackBoxInteger)ctor.Invoke(new object[] { 0});
+                        FieldInfo field = type.GetField("innerValue", BindingFlags.NonPublic | BindingFlags.Instance);
+
+                        Console.WriteLine("Enter commands to do operations: add//subtract/multiply/divide/leftShift/rightShift, end to stop");
+                        while (true)
+                        {
+                            string[] input = Console.ReadLine().Split('_');
+                            if (input[0].ToLower() == "end")
+                            {
+                                break;
+                            }
+                            int number = int.Parse(input[1]);
+                            MethodInfo method = null;
+                            foreach (MethodInfo candidate in type.GetMethods(BindingFlags.NonPublic | BindingFlags.Instance))
+                            {
+                                if (candidate.Name.Equals(input[0], StringComparison.OrdinalIgnoreCase) &&
+                                    candidate.GetParameters().Length == 1 &&
+                                    candidate.GetParameters()[0].ParameterType == typeof(int))
+                                {
+                                    method = candidate;
+                                    break;
+                                }
+                            }
+
+                            if (method == null)
+                            {
+                                Console.WriteLine("This command doesn`t exist");
+                                continue;
+                            }
+                            method.Invoke(blackBox, new object[] { number });
+                            Console.WriteLine(field.GetValue(blackBox));
+
+                        }
+                    }
+                    break;       
                 case 3:
                     break;
                 case 4:
