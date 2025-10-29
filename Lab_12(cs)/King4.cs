@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace King2
+namespace King4
 {
     public delegate void KingAttackedEventHandler();
     public class Unit
@@ -17,7 +17,8 @@ namespace King2
         }
         public virtual void Die()
         {
-            IsAlive = false;
+                IsAlive = false;
+
         }
         public virtual void RespondToAttack() { }
 
@@ -43,6 +44,7 @@ namespace King2
     }
     internal class RoyalGuard : Unit
     {
+        private int health = 3;
         public RoyalGuard(string name) : base(name)
         {
             Name = name;
@@ -56,12 +58,25 @@ namespace King2
         }
         public override void Die()
         {
-            IsAlive = false;
-            Console.WriteLine($"Royal Guard {Name} has died!");
+            if (!IsAlive)
+            {
+                return;
+            }
+            health--;
+            if (health == 0)
+            {
+                IsAlive = false;
+                Console.WriteLine($"Royal guard {Name} has died!");
+            }
+            else
+            {
+                Console.WriteLine($"Royal guard {Name} got hit!");
+            }
         }
     }
     internal class Footman : Unit
     {
+        private int health = 2;
         public Footman(string name) : base(name)
         {
             Name = name;
@@ -75,8 +90,19 @@ namespace King2
         }
         public override void Die()
         {
-            IsAlive = false;
-            Console.WriteLine($"Footman {Name} has died!");
+            if (IsAlive)
+            {
+                health--;
+                if (health <= 0)
+                {
+                    IsAlive = false;
+                    Console.WriteLine($"Footman {Name} has died!");
+                }
+                else
+                {
+                    Console.WriteLine($"Footman {Name} got hit!");
+                }
+            }
         }
     }
 }
