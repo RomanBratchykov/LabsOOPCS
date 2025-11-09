@@ -2,6 +2,8 @@
 {
     using System;
     using System.IO;
+    using System.IO.Compression;
+
     public static class LineNumbers
     {
         public static void Main()
@@ -38,6 +40,10 @@
                     break;
                 case 4:
                     {
+                        string inputFilePath = @"..\..\..\copyMe.png";
+                        string outputFilePath = @"..\..\..\copyMe-copy.png";
+
+                        CopyFile(inputFilePath, outputFilePath);
                     }
                     break;
                 case 5:
@@ -46,6 +52,9 @@
                     break;
                 case 6:
                     {
+                        var directory = @"..\..\CopyBinaryFile";
+                        var output = @"..\..\..\..";
+                        ZipCreate(directory, output);
                     }
                     break;
             }
@@ -116,7 +125,7 @@
                 wordCount.Add(line, 0);
             }
             string allText = File.ReadAllText(textFilePath);
-            string[] textWords = allText.Split(new char[] { ' ', '\n', '\r', ',', '.', '!', '?', '-'}, StringSplitOptions.RemoveEmptyEntries);
+            string[] textWords = allText.Split(new char[] { ' ', '\n', '\r', ',', '.', '!', '?', '-' }, StringSplitOptions.RemoveEmptyEntries);
 
             foreach (var word in textWords)
             {
@@ -139,7 +148,7 @@
             {
                 File.Delete(expected);
             }
-            foreach (var word in wordCount) 
+            foreach (var word in wordCount)
             {
                 File.AppendAllText(actual, word.Key + " - " + word.Value + '\n');
             }
@@ -151,5 +160,26 @@
             }
         }
 
+        public static void CopyFile(string inputFilePath, string outputFilePath)
+        {
+            int bufferSize = 4096;
+            using (var binaryFile = new FileStream(inputFilePath, FileMode.Open, FileAccess.Read))
+            using (var destinationFile =new FileStream(outputFilePath, FileMode.Create, FileAccess.ReadWrite))
+            {
+                byte[] buffer = new byte[bufferSize];
+                int bytesRead;
+
+                while ((bytesRead = binaryFile.Read(buffer, 0, buffer.Length)) > 0)
+                {
+                    destinationFile.Write(buffer, 0, bytesRead);
+                }
+
+            } 
+            
+        }
+        public static void ZipCreate(string input, string destinationPath)
+        {
+           ZipFile.CreateFromDirectory(input, destinationPath);
+        }
     }
 }
