@@ -6,13 +6,67 @@
     {
         public static void Main()
         {
-            string inputFilePath = @"..\..\..\text.txt";
-            string outputFilePath = @"..\..\..\output.txt";
-
-            ProcessLines1(inputFilePath, outputFilePath);
+            Console.WriteLine("Enter num of task 1-6, 0 to exit");
+            int num = int.Parse(Console.ReadLine());
+            switch (num)
+            {
+                case 0:
+                    return;
+                case 1:
+                    {
+                        var inputFilePath = @"..\..\..\text.txt";
+                        Console.WriteLine(ProcessLinesTask1(inputFilePath));
+                    }
+                    break;
+                case 2:
+                    {
+                        string inputFilePath = @"..\..\..\text.txt";
+                        string outputFilePath = @"..\..\..\output.txt";
+                        ProcessLinesTask2(inputFilePath, outputFilePath);
+                        foreach (var line in File.ReadAllLines(outputFilePath))
+                        {
+                            Console.WriteLine(line);
+                        }
+                    }
+                    break;
+                case 3:
+                    {
+                        string textFilePath = @"..\..\..\text.txt";
+                        string wordsFilePath = @"..\..\..\words.txt";
+                        CountWords(textFilePath, wordsFilePath);
+                    }
+                    break;
+                case 4:
+                    {
+                    }
+                    break;
+                case 5:
+                    {
+                    }
+                    break;
+                case 6:
+                    {
+                    }
+                    break;
+            }
         }
 
-        public static void ProcessLines1(string inputFilePath, string outputFilePath)
+
+        public static string ProcessLinesTask1(string inputFilePath)
+        {
+            int lineNumber = 1;
+            string result = string.Empty;
+            foreach (var line in File.ReadAllLines(inputFilePath))
+            {
+                if (lineNumber % 2 == 0)
+                {
+                    result += line;
+                }
+                lineNumber++;
+            }
+            return result;
+        }
+        public static void ProcessLinesTask2(string inputFilePath, string outputFilePath)
         {
             if (!File.Exists(inputFilePath))
             {
@@ -53,5 +107,49 @@
                 File.AppendAllText(outputFilePath, line + Environment.NewLine);
             }
         }
+
+        public static void CountWords(string textFilePath, string wordsFilePath)
+        {
+            Dictionary<string, int> wordCount = new Dictionary<string, int>();
+            foreach (var line in File.ReadAllLines(wordsFilePath))
+            {
+                wordCount.Add(line, 0);
+            }
+            string allText = File.ReadAllText(textFilePath);
+            string[] textWords = allText.Split(new char[] { ' ', '\n', '\r', ',', '.', '!', '?', '-'}, StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (var word in textWords)
+            {
+                if (wordCount.ContainsKey(word.ToLower()))
+                {
+                    if (!wordCount.ContainsKey(word.ToLower()))
+                    {
+                        wordCount[word.ToLower()] = 0;
+                    }
+                    wordCount[word.ToLower()]++;
+                }
+            }
+            var actual = (@"..\\..\\..\\actualResult.txt");
+            var expected = @"..\\..\\..\\expectedResult.txt";
+            if (File.Exists(actual))
+            {
+                File.Delete(actual);
+            }
+            if (File.Exists(expected))
+            {
+                File.Delete(expected);
+            }
+            foreach (var word in wordCount) 
+            {
+                File.AppendAllText(actual, word.Key + " - " + word.Value + '\n');
+            }
+
+            Dictionary<string, int> sorted = wordCount.OrderByDescending(x => x.Value).ToDictionary();
+            foreach (var word in sorted)
+            {
+                File.AppendAllText(expected, word.Key + " - " + word.Value + '\n');
+            }
+        }
+
     }
 }
