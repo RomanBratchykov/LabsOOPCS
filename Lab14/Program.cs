@@ -120,9 +120,9 @@ public class Program
                         int[] numbers = Console.ReadLine().Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray();
                         Comparison<int> customComparator = (a, b) =>
                         {
-                            if (a % 2 == 0 && b % 2 != 0) return -1; // a even, b odd -> a first
-                            if (a % 2 != 0 && b % 2 == 0) return 1;  // a odd, b even -> b first
-                            return a.CompareTo(b); // same parity, compare values
+                            if (a % 2 == 0 && b % 2 != 0) return -1; 
+                            if (a % 2 != 0 && b % 2 == 0) return 1;  
+                            return a.CompareTo(b); 
                         };
                         Array.Sort(numbers, customComparator);
                         Console.WriteLine(string.Join(" ", numbers));
@@ -191,7 +191,7 @@ public class Program
                                         else if (action == "Double")
                                         {
                                             people.Insert(i, people[i]);
-                                            i--; // skip the newly inserted to avoid infinite loop
+                                            i--; 
                                         }
                                     }
                                 }
@@ -243,7 +243,7 @@ public class Program
                                 }
                                 else if (action == "Remove filter")
                                 {
-                                    filters.RemoveAll(p => p.Method == predicate.Method); // Remove matching predicate
+                                    filters.RemoveAll(p => p.Method == predicate.Method);
                                 }
                             }
                         }
