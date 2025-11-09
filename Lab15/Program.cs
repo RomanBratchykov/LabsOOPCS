@@ -48,17 +48,27 @@
                     break;
                 case 5:
                     {
+                        Console.WriteLine("Enter directory name");
+                        string path = Console.ReadLine();
+                        string reportFileName = @"\report.txt";
+
+                        List<string> reportContent = TraverseDirectory(path);
+                        foreach (var line in reportContent)
+                        {
+                            Console.WriteLine(line);
+                        }
+                        WriteReportToDesktop(reportContent, reportFileName);
                     }
                     break;
                 case 6:
                     {
-                        var directory = @"..\..\CopyBinaryFile";
-                        var output = @"..\..\..\..";
+                        var directory = @"D:\LabsOOPCS\Lab15\Skeleton-Exercise\CopyBinaryFile\";
+                        var output = @"..\..\..\result.zip";
                         ZipCreate(directory, output);
                     }
                     break;
             }
-        }
+        }  
 
 
         public static string ProcessLinesTask1(string inputFilePath)
@@ -164,7 +174,7 @@
         {
             int bufferSize = 4096;
             using (var binaryFile = new FileStream(inputFilePath, FileMode.Open, FileAccess.Read))
-            using (var destinationFile =new FileStream(outputFilePath, FileMode.Create, FileAccess.ReadWrite))
+            using (var destinationFile = new FileStream(outputFilePath, FileMode.Create, FileAccess.ReadWrite))
             {
                 byte[] buffer = new byte[bufferSize];
                 int bytesRead;
@@ -174,12 +184,58 @@
                     destinationFile.Write(buffer, 0, bytesRead);
                 }
 
-            } 
-            
+            }
+
         }
         public static void ZipCreate(string input, string destinationPath)
         {
-           ZipFile.CreateFromDirectory(input, destinationPath);
+            if (File.Exists(destinationPath))
+            {
+                return;
+            }
+            ZipFile.CreateFromDirectory(input, destinationPath);
+        }
+
+        public static List<string> TraverseDirectory(string directoryPath)
+        {
+            
+
+            if (!Directory.Exists(directoryPath))
+            {
+                Console.WriteLine("Catalog doesn't exist!");
+            }
+
+
+            var files = Directory.GetFiles(directoryPath, "*.*", SearchOption.TopDirectoryOnly);
+            var grouped = files
+                .Select(f => new FileInfo(f))
+                .GroupBy(f => f.Extension.ToLower())
+                .OrderByDescending(g => g.Count())  
+                .ThenBy(g => g.Key);                
+            List<string> reportLines = new List<string>();
+
+            foreach (var group in grouped)
+            {
+                reportLines.Add($"Extension: {group.Key} ({group.Count()} files)");
+                var sortedFiles = group.OrderByDescending(f => f.Length); 
+
+                foreach (var file in sortedFiles)
+                {
+                    reportLines.Add($"  {file.Name} - {file.Length / 1024.0:F2} KB");
+                }
+                reportLines.Add("");
+
+            }
+            return reportLines;
+        }
+
+        public static void WriteReportToDesktop(List<string> textContent, string reportFileName)
+        {
+            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            Console.WriteLine(desktopPath);
+            string reportPath = (desktopPath + reportFileName);
+            Console.WriteLine($"Report will be written to: {reportPath}");
+            File.WriteAllLines(reportPath, textContent);
         }
     }
 }
