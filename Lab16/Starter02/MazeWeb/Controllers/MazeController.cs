@@ -52,7 +52,7 @@ public class MazeController : Controller
                 new ColorGrid(mazeSize, mazeSize, color),
                 algorithm);
 
-        Image maze = generator.GetGraphicalMaze(true).GetAwaiter().GetResult();
+        Image maze = await generator.GetGraphicalMaze(true);
         return maze;
 
     }
