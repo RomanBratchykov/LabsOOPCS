@@ -49,6 +49,7 @@ public class Program
                     break;
                 case 4:
                     {
+
                         string[] bounds = Console.ReadLine().Split(' ', StringSplitOptions.RemoveEmptyEntries);
                         int start = int.Parse(bounds[0]);
                         int end = int.Parse(bounds[1]);

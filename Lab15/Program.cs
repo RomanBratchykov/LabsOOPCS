@@ -198,8 +198,6 @@
 
         public static List<string> TraverseDirectory(string directoryPath)
         {
-            
-
             if (!Directory.Exists(directoryPath))
             {
                 Console.WriteLine("Catalog doesn't exist!");
