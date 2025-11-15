@@ -25,19 +25,42 @@ public class OrderReader : DataReader
         productReader = new ProductReader();
     }
 
-    public Task<Order> GetOrderAsync(int orderId)
+    public async Task<Order> GetOrderAsync(int orderId)
     {
         var order = new Order();
         try
         {
-            throw new NotImplementedException("This has not been implemented yet");
+            Task<Order> orderDetails = GetOrderDetailsAsync(orderId);
+
+            Task<Customer> customerDetails = customerReader.GetCustomerForOrderAsync(orderId);
+
+            Task<List<Product>> productsDetails = productReader.GetProductsForOrderAsync(orderId);
+
+            await Task.WhenAll(orderDetails, customerDetails, productsDetails)
+                .ContinueWith
+                (
+                    task =>
+                    {
+                        logger.LogException(task.Exception);
+                    }
+                ).ConfigureAwait(false);
+
+            if (orderDetails.IsCompletedSuccessfully && customerDetails.IsCompletedSuccessfully && productsDetails.IsCompletedSuccessfully)
+            {
+
+                order = orderDetails.Result;
+
+                order.Customer = customerDetails.Result;
+
+                order.Products = productsDetails.Result;
+            }
         }
         catch (Exception ex)
         {
             logger.LogException(ex);
         }
 
-        return Task.FromResult<Order>(order);
+        return order;
     }
 
     private async Task<Order> GetOrderDetailsAsync(int orderId)
