@@ -173,11 +173,15 @@ public partial class MainWindow : Window
 
                 await Parallel.ForEachAsync(
                     ids,
-                    tokenSource.Token,
+                    new ParallelOptions
+                    {
+                        CancellationToken = tokenSource.Token,
+                        MaxDegreeOfParallelism = 10
+                    },
                     async (id, token) =>
                     {
                         var person = await reader.GetPersonAsync(id, token);
-                        PersonListBox.Items.Add(person);
+                        Dispatcher.Invoke( () => PersonListBox.Items.Add(person));
                     });
             }
             catch (OperationCanceledException ex)

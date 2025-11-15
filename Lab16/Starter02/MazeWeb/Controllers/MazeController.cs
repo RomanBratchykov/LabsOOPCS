@@ -9,7 +9,7 @@ namespace maze_web.Controllers;
 
 public class MazeController : Controller
 {
-    public async  Task<IActionResult> Index(int size, string algo, MazeColor color)
+    public async Task<IActionResult> Index(int size, string algo, MazeColor color)
     {
         // return Content($"{size}, {algo}, {color}");
 

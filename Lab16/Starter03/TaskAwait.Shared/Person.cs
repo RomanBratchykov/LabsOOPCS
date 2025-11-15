@@ -7,6 +7,6 @@ public record Person(int Id, string GivenName, string FamilyName,
     {
         if (string.IsNullOrEmpty(FormatString))
             return $"{GivenName} {FamilyName}";
-        return string.Format(FormatString, GivenName, FamilyName);
+        return string.Format(FormatString, GivenName, FamilyName, Environment.NewLine);
     }
 }
