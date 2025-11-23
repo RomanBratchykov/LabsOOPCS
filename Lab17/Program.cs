@@ -1,14 +1,20 @@
 ﻿using System;
 
 using P01_HospitalDatabase.Data; 
+
 using P01_HospitalDatabase.Data.Models;
+using P03_SalesDatabase.Data.Models;
+using P03_SalesDatabase.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace P01_HospitalDatabase
+namespace Program
 {
-    
+   
     internal class Program
     {
+        static string[] names = { "Butter", "Milk", "Cheese", "Yogurt", "Bread", "Eggs", "Juice", "Cereal", "Apples", "Bananas" };
+        static string[] storeNames = { "FreshMart", "GroceryHub", "DailyNeeds", "SuperSaver", "FoodBazaar", "MarketPlace", "ShopEasy", "ValueMart", "QuickBuy", "UrbanGrocer" };
+        static string[] customerNames = { "Alice", "Bob", "Charlie", "David", "Eva", "Frank", "Grace", "Hannah", "Ian", "Judy" };
         public static void AddVisitation()
         {
             using (var context = new HospitalContext())
@@ -174,13 +180,91 @@ namespace P01_HospitalDatabase
             }
         }
 
+        public static void Seed(int numOfRecords)
+        {
+            using (var context = new SalesContext())
+            {
+                var random = new Random();
+                for (int i = 0; i < numOfRecords; i++)
+                {
+                    var name = names[random.Next(names.Length)];
+                    var product = new Product
+                    {
+                        Name = name,
+                        Price = (decimal)(random.Next(100, 10000) / 100.0),
+                        Quantity = random.Next(1, 101)
+                    };
+                    context.Products.Add(product);
+                    var storeName = storeNames[random.Next(storeNames.Length)];
+                    var store = new Store
+                    {
+                        Name = storeName
+                    };
+                    context.Stores.Add(store);
+                    var customerName = customerNames[random.Next(customerNames.Length)];
+                    var customer = new Customer
+                    {
+                        Name = customerName,
+                        Email = $"{customerName.ToLower()}@example.com",
+                        CreditCardNumber = random.Next(1000_0000, 9999_9999).ToString() + random.Next(1000_0000, 9999_9999).ToString()
+                    };
+                    context.Customers.Add(customer);
+                }
+                context.SaveChanges();
+                    var products = context.Products.ToList();
+                    var customers = context.Customers.ToList();
+                    var stores = context.Stores.ToList();
+                for (int i = 0; i < numOfRecords; i++)
+                {
+                    context.Sales.Add(new Sale
+                    {
+                        ProductId = products[random.Next(products.Count)].ProductId,
+                        CustomerId = customers[random.Next(customers.Count)].CustomerId,
+                        StoreId = stores[random.Next(stores.Count)].StoreId
+                    });
+                }
+                context.SaveChanges();
+            }
+        }
+        static void PrintAllTables() {
+            using (var context = new SalesContext())
+            {
+                var products = context.Products.ToList();
+                Console.WriteLine("Products:");
+                foreach (var product in products)
+                {
+                    Console.WriteLine($"ID: {product.ProductId}, Name: {product.Name}, Price: {product.Price}, Quantity: {product.Quantity}");
+                }
+                var customers = context.Customers.ToList();
+                Console.WriteLine("Customers:");
+                foreach (var customer in customers)
+                {
+                    Console.WriteLine($"ID: {customer.CustomerId}, Name: {customer.Name}, Email: {customer.Email}, Credit Card: {customer.CreditCardNumber}");
+                }
+                var stores = context.Stores.ToList();
+                Console.WriteLine("Stores:");
+                foreach (var store in stores)
+                {
+                    Console.WriteLine($"ID: {store.StoreId}, Name: {store.Name}");
+                }
+                var sales = context.Sales
+                    .Include(s => s.Product)
+                    .Include(s => s.Customer)
+                    .Include(s => s.Store)
+                    .ToList();
+                Console.WriteLine("Sales:");
+                foreach (var sale in sales)
+                {
+                    Console.WriteLine($"ID: {sale.SaleId}, Product: {sale.Product.Name}, Customer: {sale.Customer.Name}, Store: {sale.Store.Name}");
+                }
+                Console.WriteLine(
+                    "----------------------------------------");
+
+            }
+        }
+
         static void Main(string[] args)
         {
-            using (var context = new HospitalContext())
-            {
-                context.Database.Migrate();
-                Console.WriteLine("Database created");
-            }
             while (true) {
                 Console.Clear();
             Console.WriteLine("Select number of task 1-5, 0 to exit");
@@ -193,6 +277,11 @@ namespace P01_HospitalDatabase
                 {
                     case 1:
                         {
+                            using (var context = new HospitalContext())
+                            {
+                                context.Database.Migrate();
+                                Console.WriteLine("Database created");
+                            }
                             while (true)
                             {
                                 Console.Clear();
@@ -246,6 +335,11 @@ namespace P01_HospitalDatabase
                         break;
                     case 2:
                         {
+                            using (var context = new HospitalContext())
+                            {
+                                context.Database.Migrate();
+                                Console.WriteLine("Database created");
+                            }
                             Console.WriteLine("Enter doctor ID and password");
                             Console.Write("Doctor ID: ");
                             int doctorId = int.Parse(Console.ReadLine());
@@ -288,7 +382,16 @@ namespace P01_HospitalDatabase
                         break;
                     case 3:
                         {
-
+                            using (var context = new SalesContext())
+                            {
+                                context.Database.EnsureCreated();
+                                Console.WriteLine("Sales Database created");
+                            }
+                            Console.WriteLine("Seeding Sales Database with 5 records...");
+                            Seed(5);
+                            Console.WriteLine("Seeding completed.");
+                            PrintAllTables();
+                            Console.ReadLine();
                         }
                         break;
                     case 4:
