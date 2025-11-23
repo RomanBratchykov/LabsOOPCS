@@ -193,7 +193,7 @@ namespace Program
                         Name = name,
                         Price = (decimal)(random.Next(100, 10000) / 100.0),
                         Quantity = random.Next(1, 101),
-                        //Description = $"{name} description"
+                        Description = $"{name} description"
                     };
                     context.Products.Add(product);
                     var storeName = storeNames[random.Next(storeNames.Length)];
