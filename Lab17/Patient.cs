@@ -15,5 +15,10 @@ namespace P01_HospitalDatabase.Data.Models
         public string Email { get; set; } = string.Empty;
         public bool HasInsurance { get; set; }
 
+        public ICollection<Visitation> Visitations { get; set; } = null!;
+        public ICollection<Diagnose> Diagnoses { get; set; } = null!;
+
+        public ICollection<PatientMedicament> Prescriptions { get; set; } = null!;
+
     }
 }

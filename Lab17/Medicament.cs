@@ -10,5 +10,7 @@ namespace P01_HospitalDatabase.Data.Models
     {
         public int MedicamentId { get; set; }
         public string Name { get; set; } = string.Empty;
+
+        public ICollection<PatientMedicament> Prescriptions { get; set; } = null!;
     }
 }

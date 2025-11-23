@@ -11,6 +11,7 @@ namespace P01_HospitalDatabase.Data.Models
         public int VisitationId { get; set; }
         public DateTime Date { get; set; }
         public string Comments { get; set; } = string.Empty;
+        public int PatientId { get; set; }
         public Patient Patient { get; set; } = null!;
     }
 }
