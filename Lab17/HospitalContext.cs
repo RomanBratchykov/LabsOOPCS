@@ -18,20 +18,29 @@ namespace P01_HospitalDatabase.Data
             : base(options)
         {
         }
-        public DbSet<Patient> patients { get; set; } = null!;
-        public DbSet<Visitation> visitations { get; set; } = null!;
-        public DbSet<Diagnose> diagnoses { get; set; } = null!;
-        public DbSet<Medicament> medicaments { get; set; } = null!;
-        public DbSet<PatientMedicament> patientMedicaments { get; set; } = null!;
+        public DbSet<Patient> Patients { get; set; } = null!;
+        public DbSet<Visitation> Visitations { get; set; } = null!;
+        public DbSet<Diagnose> Diagnoses { get; set; } = null!;
+        public DbSet<Medicament> Medicaments { get; set; } = null!;
+        public DbSet<PatientMedicament> PatientMedicaments { get; set; } = null!;
+        public DbSet<Doctor> Doctors { get; set; } = null!;
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder.UseSqlServer("Server=localhost;Database=Hospital;Trusted_Connection=True;TrustServerCertificate=True;");
             }
+
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Patient>().ToTable("Patient");
+            modelBuilder.Entity<Visitation>().ToTable("Visitation");
+            modelBuilder.Entity<Diagnose>().ToTable("Diagnose");
+            modelBuilder.Entity<Medicament>().ToTable("Medicament");
+            modelBuilder.Entity<PatientMedicament>().ToTable("PatientMedicament");
+            modelBuilder.Entity<Doctor>().ToTable("Doctor");
+
             modelBuilder.Entity<Patient>(p =>
             {
                 p.HasKey(p => p.PatientId);
@@ -47,7 +56,7 @@ namespace P01_HospitalDatabase.Data
                 p.Property(p => p.HasInsurance);
             });
 
-            modelBuilder.Entity<Visitation>(v => {
+            modelBuilder.Entity<Visitation>(static v => {
                 v.HasKey(v => v.VisitationId);
 
                v.Property(v => v.Comments)
@@ -57,6 +66,7 @@ namespace P01_HospitalDatabase.Data
                 v.HasOne(v => v.Patient)
                       .WithMany(p => p.Visitations)
                             .HasForeignKey(p => p.PatientId);
+                v.HasOne(v => v.Doctor).WithMany(d => d.Visitations).HasForeignKey(v => v.DoctorId);
 
             });
 
@@ -99,6 +109,19 @@ namespace P01_HospitalDatabase.Data
                 entity.HasOne(pm => pm.Medicament)
                       .WithMany(m => m.Prescriptions)
                       .HasForeignKey(pm => pm.MedicamentId);
+            });
+            modelBuilder.Entity<Doctor>(d =>
+            {
+                d.HasKey(d => d.DoctorId);
+
+                d.Property(d => d.Name)
+                      .HasMaxLength(100)
+                      .IsUnicode()
+                      .IsRequired();
+                d.Property(d => d.Specialty)
+                      .HasMaxLength(100)
+                      .IsUnicode()
+                      .IsRequired();
             });
         }
     }

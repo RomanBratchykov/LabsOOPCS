@@ -13,5 +13,8 @@ namespace P01_HospitalDatabase.Data.Models
         public string Comments { get; set; } = string.Empty;
         public int PatientId { get; set; }
         public Patient Patient { get; set; } = null!;
+
+        public int DoctorId { get; set; }  = 0;
+        public Doctor Doctor { get; set; } = null!;
     }
 }
