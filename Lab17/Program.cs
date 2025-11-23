@@ -192,7 +192,8 @@ namespace Program
                     {
                         Name = name,
                         Price = (decimal)(random.Next(100, 10000) / 100.0),
-                        Quantity = random.Next(1, 101)
+                        Quantity = random.Next(1, 101),
+                        //Description = $"{name} description"
                     };
                     context.Products.Add(product);
                     var storeName = storeNames[random.Next(storeNames.Length)];
@@ -233,7 +234,7 @@ namespace Program
                 Console.WriteLine("Products:");
                 foreach (var product in products)
                 {
-                    Console.WriteLine($"ID: {product.ProductId}, Name: {product.Name}, Price: {product.Price}, Quantity: {product.Quantity}");
+                    Console.WriteLine($"ID: {product.ProductId}, Name: {product.Name}, Price: {product.Price}, Quantity: {product.Quantity}, Description: {product.Description}"); //, Description: {product.Description}
                 }
                 var customers = context.Customers.ToList();
                 Console.WriteLine("Customers:");
@@ -255,7 +256,7 @@ namespace Program
                 Console.WriteLine("Sales:");
                 foreach (var sale in sales)
                 {
-                    Console.WriteLine($"ID: {sale.SaleId}, Product: {sale.Product.Name}, Customer: {sale.Customer.Name}, Store: {sale.Store.Name}");
+                    Console.WriteLine($"ID: {sale.SaleId}, Product: {sale.Product.Name}, Customer: {sale.Customer.Name}, Store: {sale.Store.Name}, Date: {sale.Date}");
                 }
                 Console.WriteLine(
                     "----------------------------------------");

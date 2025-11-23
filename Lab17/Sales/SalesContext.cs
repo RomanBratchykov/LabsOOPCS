@@ -38,10 +38,10 @@ namespace P03_SalesDatabase.Data
                       .IsRequired()
                       .IsUnicode()
                       .HasMaxLength(50);
-                //entity.Property(p => p.Description)
-                //      .IsUnicode()
-                //      .HasDefaultValue("No description");
-                //      .HasMaxLength(250);
+                entity.Property(p => p.Description)
+                      .IsUnicode()
+                      .HasDefaultValue("No description")
+                      .HasMaxLength(250);
                 entity.Property(p => p.Price)
                       .IsRequired();
             });
@@ -69,8 +69,8 @@ namespace P03_SalesDatabase.Data
             modelBuilder.Entity<Sale>(entity =>
             {
                 entity.HasKey(s => s.SaleId);
-                //entity.Property<DateTime>("Date")
-                //      .HasDefaultValueSql("GETDATE()");
+                entity.Property<DateTime>("Date")
+                      .HasDefaultValueSql("GETDATE()");
                 entity.HasOne(s => s.Product)
                       .WithMany(p => p.Sales)
                       .HasForeignKey(s => s.ProductId);
