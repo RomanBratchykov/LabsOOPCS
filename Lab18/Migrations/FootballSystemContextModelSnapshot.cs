@@ -138,7 +138,7 @@ namespace Lab18.Migrations
 
                     b.HasIndex("PlayerStatisticsGameId", "PlayerStatisticsPlayerId");
 
-                    b.ToTable("Game");
+                    b.ToTable("Games");
                 });
 
             modelBuilder.Entity("P03_FootballBetting.Data.Models.Player", b =>
@@ -256,7 +256,7 @@ namespace Lab18.Migrations
 
                     b.HasIndex("TownId");
 
-                    b.ToTable("Team");
+                    b.ToTable("Teams");
                 });
 
             modelBuilder.Entity("P03_FootballBetting.Data.Models.Town", b =>

@@ -12,8 +12,8 @@ using P03_FootballBetting.Data;
 namespace Lab18.Migrations
 {
     [DbContext(typeof(FootballSystemContext))]
-    [Migration("20251124083945_EnsureCreated")]
-    partial class EnsureCreated
+    [Migration("20251124085852_EnsureCreated1")]
+    partial class EnsureCreated1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -141,7 +141,7 @@ namespace Lab18.Migrations
 
                     b.HasIndex("PlayerStatisticsGameId", "PlayerStatisticsPlayerId");
 
-                    b.ToTable("Game");
+                    b.ToTable("Games");
                 });
 
             modelBuilder.Entity("P03_FootballBetting.Data.Models.Player", b =>
@@ -259,7 +259,7 @@ namespace Lab18.Migrations
 
                     b.HasIndex("TownId");
 
-                    b.ToTable("Team");
+                    b.ToTable("Teams");
                 });
 
             modelBuilder.Entity("P03_FootballBetting.Data.Models.Town", b =>

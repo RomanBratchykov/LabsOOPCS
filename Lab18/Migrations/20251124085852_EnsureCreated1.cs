@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Lab18.Migrations
 {
     /// <inheritdoc />
-    public partial class EnsureCreated : Migration
+    public partial class EnsureCreated1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -88,7 +88,7 @@ namespace Lab18.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Team",
+                name: "Teams",
                 columns: table => new
                 {
                     TeamId = table.Column<int>(type: "int", nullable: false)
@@ -103,21 +103,21 @@ namespace Lab18.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Team", x => x.TeamId);
+                    table.PrimaryKey("PK_Teams", x => x.TeamId);
                     table.ForeignKey(
-                        name: "FK_Team_Colors_PrimaryKitColorId",
+                        name: "FK_Teams_Colors_PrimaryKitColorId",
                         column: x => x.PrimaryKitColorId,
                         principalTable: "Colors",
                         principalColumn: "ColorId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Team_Colors_SecondaryKitColorId",
+                        name: "FK_Teams_Colors_SecondaryKitColorId",
                         column: x => x.SecondaryKitColorId,
                         principalTable: "Colors",
                         principalColumn: "ColorId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Team_Towns_TownId",
+                        name: "FK_Teams_Towns_TownId",
                         column: x => x.TownId,
                         principalTable: "Towns",
                         principalColumn: "TownId",
@@ -146,9 +146,9 @@ namespace Lab18.Migrations
                         principalColumn: "PositionId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Players_Team_TeamId",
+                        name: "FK_Players_Teams_TeamId",
                         column: x => x.TeamId,
-                        principalTable: "Team",
+                        principalTable: "Teams",
                         principalColumn: "TeamId",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -177,7 +177,7 @@ namespace Lab18.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Game",
+                name: "Games",
                 columns: table => new
                 {
                     GameId = table.Column<int>(type: "int", nullable: false)
@@ -196,17 +196,17 @@ namespace Lab18.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Game", x => x.GameId);
+                    table.PrimaryKey("PK_Games", x => x.GameId);
                     table.ForeignKey(
-                        name: "FK_Game_Team_AwayTeamId",
+                        name: "FK_Games_Teams_AwayTeamId",
                         column: x => x.AwayTeamId,
-                        principalTable: "Team",
+                        principalTable: "Teams",
                         principalColumn: "TeamId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Game_Team_HomeTeamId",
+                        name: "FK_Games_Teams_HomeTeamId",
                         column: x => x.HomeTeamId,
-                        principalTable: "Team",
+                        principalTable: "Teams",
                         principalColumn: "TeamId",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -225,9 +225,9 @@ namespace Lab18.Migrations
                 {
                     table.PrimaryKey("PK_PlayerStatistics", x => new { x.GameId, x.PlayerId });
                     table.ForeignKey(
-                        name: "FK_PlayerStatistics_Game_GameId",
+                        name: "FK_PlayerStatistics_Games_GameId",
                         column: x => x.GameId,
-                        principalTable: "Game",
+                        principalTable: "Games",
                         principalColumn: "GameId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -249,18 +249,18 @@ namespace Lab18.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Game_AwayTeamId",
-                table: "Game",
+                name: "IX_Games_AwayTeamId",
+                table: "Games",
                 column: "AwayTeamId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Game_HomeTeamId",
-                table: "Game",
+                name: "IX_Games_HomeTeamId",
+                table: "Games",
                 column: "HomeTeamId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Game_PlayerStatisticsGameId_PlayerStatisticsPlayerId",
-                table: "Game",
+                name: "IX_Games_PlayerStatisticsGameId_PlayerStatisticsPlayerId",
+                table: "Games",
                 columns: new[] { "PlayerStatisticsGameId", "PlayerStatisticsPlayerId" });
 
             migrationBuilder.CreateIndex(
@@ -279,18 +279,18 @@ namespace Lab18.Migrations
                 column: "PlayerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Team_PrimaryKitColorId",
-                table: "Team",
+                name: "IX_Teams_PrimaryKitColorId",
+                table: "Teams",
                 column: "PrimaryKitColorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Team_SecondaryKitColorId",
-                table: "Team",
+                name: "IX_Teams_SecondaryKitColorId",
+                table: "Teams",
                 column: "SecondaryKitColorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Team_TownId",
-                table: "Team",
+                name: "IX_Teams_TownId",
+                table: "Teams",
                 column: "TownId");
 
             migrationBuilder.CreateIndex(
@@ -299,16 +299,16 @@ namespace Lab18.Migrations
                 column: "CountryId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Bets_Game_GameId",
+                name: "FK_Bets_Games_GameId",
                 table: "Bets",
                 column: "GameId",
-                principalTable: "Game",
+                principalTable: "Games",
                 principalColumn: "GameId",
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Game_PlayerStatistics_PlayerStatisticsGameId_PlayerStatisticsPlayerId",
-                table: "Game",
+                name: "FK_Games_PlayerStatistics_PlayerStatisticsGameId_PlayerStatisticsPlayerId",
+                table: "Games",
                 columns: new[] { "PlayerStatisticsGameId", "PlayerStatisticsPlayerId" },
                 principalTable: "PlayerStatistics",
                 principalColumns: new[] { "GameId", "PlayerId" });
@@ -318,7 +318,7 @@ namespace Lab18.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_PlayerStatistics_Game_GameId",
+                name: "FK_PlayerStatistics_Games_GameId",
                 table: "PlayerStatistics");
 
             migrationBuilder.DropTable(
@@ -328,7 +328,7 @@ namespace Lab18.Migrations
                 name: "Users");
 
             migrationBuilder.DropTable(
-                name: "Game");
+                name: "Games");
 
             migrationBuilder.DropTable(
                 name: "PlayerStatistics");
@@ -340,7 +340,7 @@ namespace Lab18.Migrations
                 name: "Positions");
 
             migrationBuilder.DropTable(
-                name: "Team");
+                name: "Teams");
 
             migrationBuilder.DropTable(
                 name: "Colors");

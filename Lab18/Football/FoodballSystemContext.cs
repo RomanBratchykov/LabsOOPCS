@@ -21,7 +21,7 @@ namespace P03_FootballBetting.Data
         public DbSet<Team> Teams { get; set; } = null!;
         public DbSet<User> Users { get; set; } = null!;
         public DbSet<Bet> Bets { get; set; } = null!;
-        public DbSet<Team> Games { get; set; } = null!;
+        public DbSet<Game> Games { get; set; } = null!;
         public DbSet<Position> Positions { get; set; } = null!;
         public DbSet<Town> Towns { get; set; } = null!;
         public DbSet<Country> Countries { get; set; } = null!;
@@ -59,15 +59,17 @@ namespace P03_FootballBetting.Data
                 g.Property(g => g.HomeTeamGoals);
                 g.Property(g => g.AwayTeamGoals);
                 g.Property(g => g.Result);
+
                 g.HasOne(g => g.HomeTeam)
                 .WithMany(t => t.HomeGames)
                 .HasForeignKey(g => g.HomeTeamId)
                 .OnDelete(DeleteBehavior.Restrict);
+
                 g.HasOne(g => g.AwayTeam)
                 .WithMany(t => t.AwayGames)
                 .HasForeignKey(g => g.AwayTeamId)
                 .OnDelete(DeleteBehavior.Restrict);
-                g.Property(g => g.Result);
+
                 g.Property(g => g.AwayTeamId);
                 g.Property(g => g.HomeTeamId);
 
@@ -97,11 +99,16 @@ namespace P03_FootballBetting.Data
                     t.Property(t => t.InitialsTeam);
                     t.Property(t => t.LogoUrl);
                     t.Property(t => t.Name);
-                    t.HasOne(t => t.Town).WithMany(u => u.Teams).HasForeignKey(t => t.TownId);
+
+                    t.HasOne(t => t.Town)
+                    .WithMany(u => u.Teams)
+                    .HasForeignKey(t => t.TownId);
+
                     t.HasOne(t => t.PrimaryKitColor)
                     .WithMany(c => c.PrimaryKitTeams)
                     .HasForeignKey(t => t.PrimaryKitColorId)
                     .OnDelete(DeleteBehavior.Restrict);
+
                     t.HasOne(t => t.SecondaryKitColor)
                     .WithMany(c => c.SecondaryKitTeams)
                     .HasForeignKey(t => t.SecondaryKitColorId)
@@ -140,6 +147,7 @@ namespace P03_FootballBetting.Data
                     ps.Property(ps => ps.ScoredGoals);
                     ps.Property(ps => ps.Assists);
                     ps.Property(ps => ps.MinutesPlayed);
+
                     ps.HasOne(ps => ps.Game)
                     .WithMany(g => g.PlayerStatistics)
                     .HasForeignKey(ps => ps.GameId);
