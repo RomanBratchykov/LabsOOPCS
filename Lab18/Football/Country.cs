@@ -8,5 +8,9 @@ namespace P03_FootballBetting.Data.Models
 {
     internal class Country
     {
+        public int CountryId { get; set; }
+        public string Name { get; set; } = null!;
+
+        public ICollection<Town> Towns { get; set; } = new HashSet<Town>();
     }
 }

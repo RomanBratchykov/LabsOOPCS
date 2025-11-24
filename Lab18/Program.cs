@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using P01_StudentSystem.Data;
 using P01_StudentSystem.Data.Models;
+using P03_FootballBetting.Data;
 
 namespace Program
 {
@@ -247,7 +248,11 @@ namespace Program
                         break;
                     case "2":
                         {
-
+                            using (var context = new FootballSystemContext())
+                            {
+                                context.Database.EnsureCreated();
+                                Console.WriteLine("Database created");
+                            }
                         }
                         break;
                     default:
