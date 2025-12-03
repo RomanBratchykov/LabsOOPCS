@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace P01_BillsPaymentSystem.Data.Models
 {
-    internal class BankAccount
+    public class BankAccount
     {
         public int BankAccountId { get; set; }
         public decimal Balance { get; set; }

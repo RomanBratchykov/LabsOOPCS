@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace P01_BillsPaymentSystem.Data.Models
 {
-    internal class User
+    public class User
     {
         public int UserId { get; set; }
         public string FirstName { get; set; } = string.Empty;

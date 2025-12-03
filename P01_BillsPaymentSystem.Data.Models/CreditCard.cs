@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace P01_BillsPaymentSystem.Data.Models
 {
-    internal class CreditCard
+    public class CreditCard
     {
         public int CreditCardId { get; set; }
         public decimal Limit { get; set; }

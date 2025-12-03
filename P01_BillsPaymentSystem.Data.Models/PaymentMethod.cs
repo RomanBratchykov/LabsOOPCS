@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace P01_BillsPaymentSystem.Data.Models
 {
-    internal enum PaymentType
+    public enum PaymentType
     {
         BankAccount = 1,
         CreditCard = 2
     }
 
-    internal class PaymentMethod
+    public class PaymentMethod
     {
         public int Id { get; set; }
         public PaymentType Type { get; set; }
