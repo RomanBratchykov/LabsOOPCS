@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using P01_BillsPaymentSystem.Data.Models;
+using P01_BillsPaymentSystem.Data.EntityConfig;
 
 namespace P01_BillsPaymentSystem.Data
 {
-    internal class BillsPaymentSystemContext : DbContext
+    public class BillsPaymentSystemContext : DbContext
     {
         public BillsPaymentSystemContext() { }
         public BillsPaymentSystemContext(DbContextOptions options) : base(options) { }
@@ -21,36 +22,15 @@ namespace P01_BillsPaymentSystem.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=localhost;Database=Hospital;Trusted_Connection=True;TrustServerCertificate=True;");
+                optionsBuilder.UseSqlServer("Server=localhost;Database=BillPaymentSystem;Trusted_Connection=True;TrustServerCertificate=True;");
             }
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>(u =>
-            {
-                u.HasKey(u => u.UserId);
-                u.Property(
-                    u => u.FirstName
-                ).HasMaxLength(50).IsUnicode(true);
-                u.Property(
-                    u => u.LastName
-                ).HasMaxLength(50).IsUnicode(true);
-                u.Property(
-                    u => u.Email
-                ).HasMaxLength(80).IsUnicode(false);
-                u.Property(
-                    u => u.Password
-                ).HasMaxLength(25).IsUnicode(false);
-            });
-            modelBuilder.Entity<PaymentMethod>(pm =>
-            {
-                pm.HasKey(pm => pm.Id);
-                pm.HasOne(pm => pm.User)
-                    .WithMany(u => u.PaymentMethods)
-                    .HasForeignKey(pm => pm.UserId);
-                pm.Property(pm => pm.Type).IsRequired();
-
-            });
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
+            modelBuilder.ApplyConfiguration(new BankAccountConfiguration());
+            modelBuilder.ApplyConfiguration(new CreditCardConfiguration());
+            modelBuilder.ApplyConfiguration(new PaymentMethodConfiguration());
         }
     }
 }

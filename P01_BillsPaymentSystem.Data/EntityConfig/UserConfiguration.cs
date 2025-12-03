@@ -27,4 +27,5 @@ namespace P01_BillsPaymentSystem.Data.EntityConfig
                 u => u.Password
             ).HasMaxLength(25).IsUnicode(false);
         }
+    }
 }
