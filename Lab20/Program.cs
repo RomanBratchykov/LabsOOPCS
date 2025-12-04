@@ -52,7 +52,7 @@ public class Program
                     }
                 }
                 break;
-                case 2:
+            case 2:
                 {
                     try
                     {
@@ -65,21 +65,21 @@ public class Program
                         var books = queries.GetBooksByAgeRestriction(dbContext, command);
                         Console.WriteLine(books);
                     }
-                   catch (ArgumentException ex)
+                    catch (ArgumentException ex)
                     {
                         Console.WriteLine(ex.Message);
                     }
                 }
                 break;
             case 3:
-                { 
+                {
                     Console.WriteLine("---------------");
                     Console.WriteLine("Task 3");
                     Console.WriteLine("---------------");
                     var queries = new Queries();
                     var result = queries.GetGoldenBooks(dbContext);
                     Console.WriteLine(result);
-                    
+
                 }
                 break;
             case 4:
@@ -97,7 +97,7 @@ public class Program
                     try
                     {
                         Console.WriteLine("---------------");
-                        Console.WriteLine("Task 2");
+                        Console.WriteLine("Task 5");
                         Console.WriteLine("---------------");
                         Console.WriteLine("Enter year");
                         var year = int.Parse(Console.ReadLine()!);
@@ -113,14 +113,77 @@ public class Program
                 break;
             case 6:
                 {
-
+                    try
+                    {
+                        Console.WriteLine("---------------");
+                        Console.WriteLine("Task 6");
+                        Console.WriteLine("---------------");
+                        Console.WriteLine("Enter categories with spacing");
+                        var categories = Console.ReadLine()!;
+                        var queries = new Queries();
+                        var books = queries.GetBooksByCategory(dbContext, categories);
+                        Console.WriteLine(books);
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
                 }
                 break;
             case 7:
+                {
+                    try
+                    {
+                        Console.WriteLine("---------------");
+                        Console.WriteLine("Task 7");
+                        Console.WriteLine("---------------");
+                        Console.WriteLine("Enter year format dd-mm-YYYY");
+                        var date = Console.ReadLine()!;
+                        var queries = new Queries();
+                        var books = queries.GetBooksReleasedBefore(dbContext, date);
+                        Console.WriteLine(books);
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                }
                 break;
             case 8:
+                {
+                    try
+                    {
+                        Console.WriteLine("---------------");
+                        Console.WriteLine("Task 8");
+                        Console.WriteLine("---------------");
+                        Console.WriteLine("Enter last letter of author name");
+                        var lastLetters = Console.ReadLine()!;
+                        var queries = new Queries();
+                        var books = queries.GetBooksReleasedBefore(dbContext, lastLetters);
+                        Console.WriteLine(books);
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                }
                 break;
             case 9:
+                try
+                {
+                    Console.WriteLine("---------------");
+                    Console.WriteLine("Task 9");
+                    Console.WriteLine("---------------");
+                    Console.WriteLine("Enterletters which should be in book title");
+                    var lastLetters = Console.ReadLine()!;
+                    var queries = new Queries();
+                    var books = queries.GetBookTitlesContaining(dbContext, lastLetters);
+                    Console.WriteLine(books);
+                }
+                catch (ArgumentException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
                 break;
             case 10:
                 break;

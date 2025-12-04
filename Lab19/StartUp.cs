@@ -26,8 +26,31 @@ namespace P01_BillsPaymentSystem
                 Console.WriteLine("\nTry to pay your bill with 1200? Y/N");
                 if (Console.ReadLine()?.ToUpper() == "Y")
                 {
-                    PayBills(context, userId, 1200.00m);
-                    UserDetails(context, userId);
+                    if (PayBills(context, userId, 1900.00m))
+                    {
+                        UserDetails(context, userId);
+                    }
+                    else
+                    {
+                      Console.WriteLine("Payment failed.");
+                    }
+                    
+                }
+                Console.WriteLine("\nTry to deposit money? Y/N");
+                if (Console.ReadLine()?.ToUpper() == "Y")
+                {
+                    Console.WriteLine("Enter Payment Method ID to deposit to:");
+                    if (int.TryParse(Console.ReadLine(), out int pmId))
+                    {
+                        Console.WriteLine("Enter amount to deposit (e.g., 500.00):");
+                        if (decimal.TryParse(Console.ReadLine(), out decimal depositAmount))
+                        {
+                            if (DepositMoney(context, userId, pmId, depositAmount))
+                            {
+                                UserDetails(context, userId);
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -97,7 +120,7 @@ namespace P01_BillsPaymentSystem
             }
         }
 
-        private static void PayBills(BillsPaymentSystemContext context, int userId, decimal amount)
+        private static bool PayBills(BillsPaymentSystemContext context, int userId, decimal amount)
         {
             var user = context.Users
                 .Where(u => u.UserId == userId)
@@ -110,18 +133,19 @@ namespace P01_BillsPaymentSystem
             if (user == null)
             {
                 Console.WriteLine($"User with id {userId} not found!");
-                return;
+                return false;
             }
 
             var totalAvailableAmount = user.PaymentMethods
-                .Sum(pm => pm.BankAccount?.Balance ?? 0m) +
-                user.PaymentMethods
-                .Sum(pm => pm.CreditCard?.LimitLeft ?? 0m);
-
+     .Select(pm =>
+         (pm.BankAccount?.Balance ??
+          pm.CreditCard?.LimitLeft ??
+          0m)
+       ).Max();
             if (totalAvailableAmount < amount)
             {
                 Console.WriteLine("Not enought !");
-                return;
+                return false;
             }
 
             var orderedPaymentMethods = user.PaymentMethods
@@ -146,6 +170,7 @@ namespace P01_BillsPaymentSystem
                         {
                             remainingAmount -= amountToWithdraw;
                         }
+
                     }
                 }
                 else if (pm.Type == PaymentType.CreditCard)
@@ -173,6 +198,56 @@ namespace P01_BillsPaymentSystem
             {
                 Console.WriteLine("Error, you can't pay with this method");
             }
+            return true;
+        }
+        private static bool DepositMoney(BillsPaymentSystemContext context, int userId, int paymentMethodId, decimal amount)
+        {
+            if (amount <= 0)
+            {
+                Console.WriteLine("Deposit amount must be positive.");
+                return false;
+            }
+
+            var paymentMethod = context.PaymentMethods
+                .Where(pm => pm.Id == paymentMethodId && pm.UserId == userId)
+                .Include(pm => pm.BankAccount)
+                .Include(pm => pm.CreditCard)
+                .FirstOrDefault();
+
+            if (paymentMethod == null)
+            {
+                Console.WriteLine($"Payment method with ID {paymentMethodId} for user {userId} not found!");
+                return false;
+            }
+
+            bool success = false;
+            string type = "";
+
+            if (paymentMethod.Type == PaymentType.BankAccount && paymentMethod.BankAccount != null)
+            {
+                paymentMethod.BankAccount.Deposit(amount);
+                type = "Bank Account";
+                success = true;
+            }
+            else if (paymentMethod.Type == PaymentType.CreditCard && paymentMethod.CreditCard != null)
+            {
+                paymentMethod.CreditCard.Deposit(amount);
+                type = "Credit Card (Debt reduction)";
+                success = true;
+            }
+            else
+            {
+                Console.WriteLine("Error: Payment method type is invalid or object is null.");
+            }
+
+            if (success)
+            {
+                context.SaveChanges();
+                Console.WriteLine($"\nDeposit successful! {amount:F2} added to {type} (ID: {paymentMethodId}).");
+                return true;
+            }
+
+            return false;
         }
     }
 }

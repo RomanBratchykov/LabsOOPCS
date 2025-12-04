@@ -62,5 +62,62 @@ namespace BookShop.Data
             }
             return result;
         }
+        internal string GetBooksByCategory(BookStoreContext context, string input)
+        {
+            var categories = input
+                .ToLower()
+                .Substring(0, 1)
+                .ToUpper()
+                .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                .Select(c => c.Trim())
+                .ToArray();
+
+            var books = context.Books
+                .Where(b => b.BookCategory
+                    .Any(bc => categories.Contains(bc.Category.Name.ToLower())))
+                .OrderBy(b => b.Title);
+
+            var result = new StringBuilder();
+            foreach (var book in books)
+            {
+                result.AppendLine(book.Title);
+            }
+            return result.ToString().TrimEnd();
+        }
+        internal string GetBooksReleasedBefore(BookStoreContext BookShopContext, string date1)
+        {
+            string result = string.Empty;
+
+            if (DateTime.TryParseExact(date1, "dd-MM-yyyy", null, System.Globalization.DateTimeStyles.None, out var dt1))
+            {
+                var books = BookShopContext.Books
+                    .Where(b => b.ReleaseDate < dt1)
+                    .OrderByDescending(b => b.ReleaseDate);
+
+                foreach (var book in books)
+                {
+                    result += $"{book.Title} - {book.EditionType} - ${book.Price}";
+                }
+            }
+            else
+            {
+                throw new ArgumentException("Invalid date format. Please use dd-MM-yyyy.");
+            }
+
+            return result;
+        }
+        internal string GetAuthorNamesEndingIn(BookStoreContext context, string input)
+        {
+            string result = string.Empty;
+            var authors = context.Authors
+                .Where(a => a.FirstName.EndsWith(input))
+                .OrderBy(a => a.FirstName)
+                .ThenBy(a => a.LastName);
+            foreach (var author in authors)
+            {
+                result += $"{author.FirstName} {author.LastName}" + Environment.NewLine;
+            }
+            return result;
+        }
     }
 }
