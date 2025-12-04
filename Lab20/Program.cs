@@ -260,7 +260,11 @@ public class Program
                 break;
             case 16:
                 {
-
+                    Console.WriteLine("---------------");
+                    Console.WriteLine("Task 15");
+                    Console.WriteLine("---------------");
+                    var queries = new Queries();
+                    queries.RemoveBooks(dbContext);
                 }
                 break;
             default:

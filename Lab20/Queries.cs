@@ -240,5 +240,16 @@ namespace BookShop.Data
             context.SaveChanges();
             Console.WriteLine("Prices updated successfully.");
         }
+        internal int RemoveBooks(BookStoreContext context)
+        {
+            int copiesThreshold = 4200;
+            var booksToRemove = context.Books
+                .Where(b => b.Copies < copiesThreshold)
+                .ToList();
+            int removedBooksCount = booksToRemove.Count;
+            context.Books.RemoveRange(booksToRemove);
+            context.SaveChanges();
+            return removedBooksCount;
+        }
     }
 }
