@@ -37,5 +37,30 @@ namespace BookShop.Data
             }
             return result;
         }
+        internal string GetBooksByPrice(BookStoreContext context)
+        {
+            string result = string.Empty;
+            var books = context.Books.Where(b => b.Price > 40).OrderByDescending(b => b.Price);
+            foreach (var book in books)
+            {
+                result += book.Title + " " + book.Price + Environment.NewLine;
+            }
+
+            return result;
+        }
+        internal string GetBooksNotReleasedIn(BookStoreContext context, int year)
+        {
+            string result = string.Empty;
+            if (year < 0 && year > 2025)
+            {
+                throw new ArgumentException("Year can`t be that value");
+            }
+            var books = context.Books.Where(b => b.ReleaseDate.Year != year).OrderBy(b => b.BookId);
+            foreach (var book in books)
+            {
+                result += book.Title + Environment.NewLine;
+            }
+            return result;
+        }
     }
 }

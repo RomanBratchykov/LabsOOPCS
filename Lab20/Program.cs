@@ -72,15 +72,38 @@ public class Program
                 }
                 break;
             case 3:
+                { 
+                    Console.WriteLine("---------------");
+                    Console.WriteLine("Task 3");
+                    Console.WriteLine("---------------");
+                    var queries = new Queries();
+                    var result = queries.GetGoldenBooks(dbContext);
+                    Console.WriteLine(result);
+                    
+                }
+                break;
+            case 4:
+                {
+                    Console.WriteLine("---------------");
+                    Console.WriteLine("Task 4");
+                    Console.WriteLine("---------------");
+                    var queries = new Queries();
+                    var result = queries.GetBooksByPrice(dbContext);
+                    Console.WriteLine(result);
+                }
+                break;
+            case 5:
                 {
                     try
                     {
                         Console.WriteLine("---------------");
-                        Console.WriteLine("Task 3");
+                        Console.WriteLine("Task 2");
                         Console.WriteLine("---------------");
+                        Console.WriteLine("Enter year");
+                        var year = int.Parse(Console.ReadLine()!);
                         var queries = new Queries();
-                        var result = queries.GetGoldenBooks(dbContext);
-                        Console.WriteLine(result);
+                        var books = queries.GetBooksNotReleasedIn(dbContext, year);
+                        Console.WriteLine(books);
                     }
                     catch (ArgumentException ex)
                     {
@@ -88,11 +111,10 @@ public class Program
                     }
                 }
                 break;
-            case 4:
-                break;
-            case 5:
-                break;
             case 6:
+                {
+
+                }
                 break;
             case 7:
                 break;
