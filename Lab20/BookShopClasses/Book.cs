@@ -8,15 +8,15 @@ namespace BookShop.Models
 {
     internal enum AgeRestriction
     {
-        Minor = 0,
-        Teen = 1,
-        Adult = 2
+        minor = 0,
+        teen = 1,
+        adult = 2
     }
     internal enum EditionType
     {
-        Normal = 0,
-        Promo = 1,
-        Gold = 2
+        normal = 0,
+        promo = 1,
+        gold = 2
     }
     internal class Book
     {
