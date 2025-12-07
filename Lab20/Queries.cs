@@ -41,7 +41,7 @@ namespace BookShop.Data
         internal string GetBooksByPrice(BookStoreContext context)
         {
             string result = string.Empty;
-            var books = context.Books.Where(b => b.Price > 40).OrderByDescending(b => b.Price);
+            var books = context.Books.Where(b => b.Price > 10).OrderByDescending(b => b.Price);
             foreach (var book in books)
             {
                 result += book.Title + " " + book.Price + Environment.NewLine;
