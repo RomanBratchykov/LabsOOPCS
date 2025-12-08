@@ -14,7 +14,7 @@ namespace Lab_2122.UniversityCourseSystem.Services
         {
             decimal finalGrade = 0m;
             if (grades is null || grades.Count == 0) return 0m;
-            return grades.Average(g => g.Score);
+            return grades.Average(g => g.Points);
         }
     }
 }

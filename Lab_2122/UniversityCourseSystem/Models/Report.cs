@@ -8,26 +8,27 @@ using System.Threading.Tasks;
 
 namespace Lab_2122.UniversityCourseSystem.Models
 {
-    internal class Enrollment
+    internal class Report
     {
         [Key]
         public int Id { get; set; }
-
-        public int StudentId { get; set; }
-        [ForeignKey("StudentId")]
-        public Student? Student { get; set; }
 
         public int CourseId { get; set; }
         [ForeignKey("CourseId")]
         public Course? Course { get; set; }
 
-        [Column(TypeName = "decimal(5,2)")]
-        public decimal? FinalGrade { get; set; }
+        public int ReportTypeId { get; set; }
+        [ForeignKey("ReportTypeId")]
+        public ReportType? ReportType { get; set; }
 
-        [MaxLength(2)]
-        public string LetterGrade { get; set; } = string.Empty;
+        [MaxLength(255)]
+        public string FileName { get; set; } = string.Empty;
 
-        public DateTime EnrolledAt { get; set; } = DateTime.UtcNow;
-        public DateTime? CompletedAt { get; set; }
+        public DateTime GeneratedAt { get; set; } = DateTime.UtcNow;
+
+        [MaxLength(100)]
+        public string GeneratedBy { get; set; } = string.Empty; 
+
+        public int FileSizeBytes { get; set; }
     }
 }

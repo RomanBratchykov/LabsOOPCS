@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Lab_2122.UniversityCourseSystem.Models
 {
-    internal class Enrollment
+    internal class Notification
     {
         [Key]
         public int Id { get; set; }
@@ -17,17 +17,16 @@ namespace Lab_2122.UniversityCourseSystem.Models
         [ForeignKey("StudentId")]
         public Student? Student { get; set; }
 
-        public int CourseId { get; set; }
-        [ForeignKey("CourseId")]
-        public Course? Course { get; set; }
+        [Required]
+        [MaxLength(200)]
+        public string Subject { get; set; } = string.Empty;
 
-        [Column(TypeName = "decimal(5,2)")]
-        public decimal? FinalGrade { get; set; }
+        public string Body { get; set; } = string.Empty; 
 
-        [MaxLength(2)]
-        public string LetterGrade { get; set; } = string.Empty;
+        [MaxLength(50)]
+        public string NotificationType { get; set; } = "Email";
 
-        public DateTime EnrolledAt { get; set; } = DateTime.UtcNow;
-        public DateTime? CompletedAt { get; set; }
+        public DateTime SentAt { get; set; } = DateTime.UtcNow;
+        public bool IsRead { get; set; } 
     }
 }
