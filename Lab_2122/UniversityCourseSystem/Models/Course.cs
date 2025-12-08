@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Lab_2122.UniversityCourseSystem.Models
 {
-    internal class Course
+    public class Course
     {
         [Key]
         public int Id { get; set; }

@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Lab_2122.UniversityCourseSystem.Services.Interfaces
 {
-    internal interface ILogger
+    public interface ILogger
     {
-        internal void Log(string message);
-        internal void LogError(string message, Exception ex);
-        internal void LogWarning(string message);
+        public void Log(string message);
+        public void LogError(string message, Exception ex);
+        public void LogWarning(string message);
     }
 }

@@ -10,7 +10,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Lab_2122.UniversityCourseSystem.Services
 {
-    internal class ReportService
+    public class ReportService
     {
         private readonly IEnumerable<IPdfGenerator> _pdfGenerators;
         private readonly IEnumerable<IExcelGenerator> _excelGenerators;

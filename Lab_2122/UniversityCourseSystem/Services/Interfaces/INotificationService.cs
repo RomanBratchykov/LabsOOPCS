@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Lab_2122.UniversityCourseSystem.Services.Interfaces
 {
-    internal interface INotificationService
+    public interface INotificationService
     {
         void NotifyStudentEnrolled(Student student, Course course);
         void NotifyGradePublished(Student student, Grade grade);

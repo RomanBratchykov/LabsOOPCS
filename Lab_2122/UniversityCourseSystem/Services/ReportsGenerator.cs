@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Lab_2122.UniversityCourseSystem.Services
 {
-    internal class CsvReportGenerator : ICsvGenerator
+    public class CsvReportGenerator : ICsvGenerator
     {
         public string GenerateCsv(ReportData data)
         {
@@ -22,7 +22,7 @@ namespace Lab_2122.UniversityCourseSystem.Services
             return sb.ToString();
         }
     }
-     internal class JsonReportGenerator : IJsonGenerator, IDatabaseSaver
+     public class JsonReportGenerator : IJsonGenerator, IDatabaseSaver
     {
         public string GenerateJson(ReportData data)
         {
@@ -35,21 +35,21 @@ namespace Lab_2122.UniversityCourseSystem.Services
             Console.WriteLine("💾 Saving JSON report to Database...");
         }
     }
-    internal class CloudReportService : ICloudUploader
+    public class CloudReportService : ICloudUploader
     {
         public void UploadToCloud(string fileName, byte[] content, string cloudProvider)
         {
             Console.WriteLine($"☁️ Uploading {fileName} to Google Drive...");
         }
     }
-    internal class EmailReportService : IEmailSender
+    public class EmailReportService : IEmailSender
     {
         public void SendEmail(string recipient, byte[] attachment, string subject)
         {
             Console.WriteLine($"Sending email to {recipient} with subject '{subject}' and attachment of {attachment.Length} bytes.");
         }
     }
-    internal class UniversalReportGenerator : IPdfGenerator, IExcelGenerator, ICsvGenerator, IJsonGenerator
+    public class UniversalReportGenerator : IPdfGenerator, IExcelGenerator, ICsvGenerator, IJsonGenerator
     {
         public byte[] GeneratePdf(ReportData data) => Encoding.UTF8.GetBytes("Universal PDF");
         public byte[] GenerateExcel(ReportData data) => Encoding.UTF8.GetBytes("Universal Excel");

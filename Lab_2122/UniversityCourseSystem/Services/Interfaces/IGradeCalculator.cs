@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Lab_2122.UniversityCourseSystem.Services.Interfaces
 {
-    internal interface IGradeCalculator
+    public interface IGradeCalculator
     {
         decimal CalculateFinalGrade(List<Grade> grades);
     }

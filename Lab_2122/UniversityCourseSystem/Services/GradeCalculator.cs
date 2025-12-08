@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace Lab_2122.UniversityCourseSystem.Services
 {
-    internal interface IGradingStrategy
+    public interface IGradingStrategy
     {
         decimal Calculate(List<Grade> grades);
     }
 
-    internal class WeightedAverageStrategy : IGradingStrategy
+    public class WeightedAverageStrategy : IGradingStrategy
     {
         public decimal Calculate(List<Grade> grades)
         {
@@ -21,7 +21,7 @@ namespace Lab_2122.UniversityCourseSystem.Services
         }
     }
 
-    internal class BestOfNStrategy : IGradingStrategy
+    public class BestOfNStrategy : IGradingStrategy
     {
         private int _n = 5;
         public decimal Calculate(List<Grade> grades)
@@ -29,7 +29,7 @@ namespace Lab_2122.UniversityCourseSystem.Services
             return grades.OrderByDescending(g => g.Points).Take(_n).Average(g => g.Points);
         }
     }
-    internal class GradeCalculator : IGradeCalculator
+    public class GradeCalculator : IGradeCalculator
     {
         private IGradingStrategy _strategy;
 

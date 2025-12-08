@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Lab_2122.UniversityCourseSystem.Models.Assignments
 {
-    internal class Exam : Assignment, IGradable
+    public class Exam : Assignment, IGradable
     {
         public string ExamType { get; set; } = "Written"; 
         public int DurationMinutes { get; set; }
@@ -26,7 +26,7 @@ namespace Lab_2122.UniversityCourseSystem.Models.Assignments
             return $"You have completed the exam '{Title}'.";
         }
     }
-    internal class Project : Assignment, IGradable
+    public class Project : Assignment, IGradable
     {
         public int TeamSize { get; set; }
         public new int MaxPoints { get; set; }
@@ -43,7 +43,7 @@ namespace Lab_2122.UniversityCourseSystem.Models.Assignments
             return $"Project '{Title}' was great.";
         }
     }
-    internal class Lab : Assignment, IGradable
+    public class Lab : Assignment, IGradable
     {
         public int LabNumber { get; set; }
         public new int MaxPoints { get; set; }
@@ -58,7 +58,7 @@ namespace Lab_2122.UniversityCourseSystem.Models.Assignments
             return $"You have completed the lab '{Title}'.";
         }
     }
-    internal class Quiz : Assignment
+   public class Quiz : Assignment
     {
         public bool isOptional { get; set; }
         public int AttemptCount { get; set; }
@@ -76,7 +76,7 @@ namespace Lab_2122.UniversityCourseSystem.Models.Assignments
             Console.WriteLine($"Showing correct answers for Quiz '{Title}'.");
         }
     }
-    internal class Survey : Assignment
+    public class Survey : Assignment
     {
         public bool IsAnonymous { get; set; }
         public int QuestionCount { get; set; }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Lab_2122.UniversityCourseSystem.Services
 {
-    internal class PdfReportGenerator : IPdfGenerator, IPrintable, IReportGenerator
+    public class PdfReportGenerator : IPdfGenerator, IPrintable, IReportGenerator
     {
         private readonly ILogger _logger;
         public PdfReportGenerator(ILogger logger)

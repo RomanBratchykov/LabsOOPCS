@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Lab_2122.UniversityCourseSystem.Services
 {
-    internal class EmailNotificationService : INotificationService
+    public class EmailNotificationService : INotificationService
     {
         private readonly ILogger _logger;
         public EmailNotificationService(ILogger logger)

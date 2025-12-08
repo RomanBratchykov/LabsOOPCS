@@ -10,7 +10,7 @@ using Lab_2122.UniversityCourseSystem.Services.Interfaces;
 
 namespace Lab_2122.UniversityCourseSystem.Services
 {
-    internal class GradeRepository : IGradeRepository
+    public class GradeRepository : IGradeRepository
     {
         private readonly UniversityDbContext _context;
         public GradeRepository(UniversityDbContext context)

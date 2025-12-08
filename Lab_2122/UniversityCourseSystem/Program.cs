@@ -15,17 +15,6 @@ class Program
     private static IServiceCollection _services;
     public static void Main(string[] args)
     {
-        var services = new ServiceCollection();
-        services.AddDbContext<UniversityDbContext>();
-        services.AddScoped<IStudentRepository, StudentRepository>();
-        services.AddScoped<ICourseRepository, CourseRepository>();
-        services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
-        services.AddTransient<IEmailSender, ConsoleEmailSender>();
-        services.AddTransient<INotificationService, NotificationService>();
-        services.AddSingleton<ILogger, ConsoleLogger>(); 
-        services.AddTransient<CourseService>();
-        var serviceProvider = services.BuildServiceProvider();
-        var courseService = serviceProvider.GetRequiredService<CourseService>();
         ConfigureServices(useRealDb: true, useRealEmail: false);
         SeedData(); 
 
@@ -68,7 +57,6 @@ class Program
     {
         _services = new ServiceCollection();
 
-        // Database
         if (useRealDb)
         {
             _services.AddDbContext<UniversityDbContext>(options =>
@@ -104,6 +92,7 @@ class Program
 
         _services.AddTransient<CourseService>();
         _services.AddTransient<ReportService>();
+        _services.AddTransient<AssignmentService>();
 
         _provider = _services.BuildServiceProvider();
     }

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Lab_2122.UniversityCourseSystem.Repositories
 {
-    internal interface IStudentRepository
+    public interface IStudentRepository
     {
         Student GetById(int id);
         List<Student> GetAll();
@@ -18,20 +18,20 @@ namespace Lab_2122.UniversityCourseSystem.Repositories
         void Delete(int id);
 
     }
-    internal interface ICourseRepository
+    public interface ICourseRepository
     {
         Course GetById(int id);
         List<Course> GetAll();
         void Add(Course course);
         void Update(Course course);
     }
-    internal interface IEnrollmentRepository
+    public interface IEnrollmentRepository
     {
         void Enroll(int studentId, int courseId);
         List<Enrollment> GetByStudent(int studentId);
         List<Enrollment> GetByCourse(int courseId);
     }
-    internal class StudentRepository : IStudentRepository
+    public class StudentRepository : IStudentRepository
     {
         private readonly UniversityDbContext _context;
 
@@ -69,7 +69,7 @@ namespace Lab_2122.UniversityCourseSystem.Repositories
             }
         }
     }
-    internal class CourseRepository : ICourseRepository
+    public class CourseRepository : ICourseRepository
     {
         private readonly UniversityDbContext _context;
 
@@ -100,7 +100,7 @@ namespace Lab_2122.UniversityCourseSystem.Repositories
             _context.SaveChanges();
         }
     }
-    internal class EnrollmentRepository : IEnrollmentRepository
+    public class EnrollmentRepository : IEnrollmentRepository
     {
         private readonly UniversityDbContext _context;
 
@@ -131,7 +131,7 @@ namespace Lab_2122.UniversityCourseSystem.Repositories
         }
     }
 
-    internal class SmtpEmailSender : IEmailSender
+    public class SmtpEmailSender : IEmailSender
     {
         public void SendEmail(string recipient, byte[] attachment, string subject)
         {
@@ -139,14 +139,14 @@ namespace Lab_2122.UniversityCourseSystem.Repositories
         }
     }
 
-    internal class ConsoleEmailSender : IEmailSender 
+    public class ConsoleEmailSender : IEmailSender 
     {
         public void SendEmail(string recipient, byte[] attachment, string subject)
         {
             Console.WriteLine($"Email to {recipient}: {subject}");
         }
     }
-    internal class NotificationService : INotificationService
+    public class NotificationService : INotificationService
     {
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;

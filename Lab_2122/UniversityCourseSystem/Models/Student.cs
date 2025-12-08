@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Lab_2122.UniversityCourseSystem.Models
 {
-    internal class Student
+    public class Student
     {
         [Key]
         public int Id { get; set; }

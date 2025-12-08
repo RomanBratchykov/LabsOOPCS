@@ -8,7 +8,7 @@ using Lab_2122.UniversityCourseSystem.Services.Interfaces;
 
 namespace Lab_2122.UniversityCourseSystem.Services
 {
-    internal class ConsoleLogger : ILogger
+    public class ConsoleLogger : ILogger
     {
         public void Log(string message) => Console.WriteLine($"[LOG] {message}");
         public void LogInformation(string message) => Console.WriteLine($"[INFO] {message}");

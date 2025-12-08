@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Lab_2122.UniversityCourseSystem.Services.Interfaces
 {
-    internal interface IGradeRepository
+    public interface IGradeRepository
     {
         List<Student> GetStudentsByCourse(int courseId);
         void SaveFinalGrade(int studentId, int courseId, decimal grade);

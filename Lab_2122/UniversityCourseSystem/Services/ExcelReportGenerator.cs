@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Lab_2122.UniversityCourseSystem.Services
 {
-    internal class ExcelReportGenerator : IExcelGenerator, IEmailSender
+    public class ExcelReportGenerator : IExcelGenerator, IEmailSender
     {
         private readonly ILogger _logger;
         public ExcelReportGenerator(ILogger logger)

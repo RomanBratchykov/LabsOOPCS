@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Lab_2122.UniversityCourseSystem.Services
 {
-    internal class CourseService
+    public class CourseService
     {
         private readonly IStudentRepository _studentRepo;
         private readonly ICourseRepository _courseRepo;

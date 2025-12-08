@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Lab_2122.UniversityCourseSystem.Services.Interfaces
 {
-    internal class AssignmentService
+    public class AssignmentService
     {
         private readonly ILogger _logger;
 

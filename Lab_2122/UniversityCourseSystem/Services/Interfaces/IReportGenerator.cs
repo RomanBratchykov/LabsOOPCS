@@ -7,39 +7,39 @@ using System.Threading.Tasks;
 
 namespace Lab_2122.UniversityCourseSystem.Services.Interfaces
 {
-    internal interface IReportGenerator
+    public interface IReportGenerator
     {
         void GenerateReport(int courseId, List<Student> students);
     }
-    internal interface IPdfGenerator
+    public interface IPdfGenerator
     {
         byte[] GeneratePdf(ReportData data);
     }
-    internal interface IExcelGenerator
+    public interface IExcelGenerator
     {
         byte[] GenerateExcel(ReportData data);
     }
-    internal interface ICsvGenerator
+    public interface ICsvGenerator
     {
         string GenerateCsv(ReportData data);
     }
-    internal interface IJsonGenerator
+    public interface IJsonGenerator
     {
         string GenerateJson(ReportData data);
     }
-    internal interface IEmailSender
+    public interface IEmailSender
     {
         void SendEmail(string recipient, byte[] attachment, string subject);
     }
-    internal interface IPrintable
+    public interface IPrintable
     {
         void Print(byte[] document);
     }
-    internal interface ICloudUploader
+    public interface ICloudUploader
     {
         void UploadToCloud(string fileName, byte[] content, string cloudProvider);
     }
-    internal interface IDatabaseSaver
+    public interface IDatabaseSaver
     {
         void SaveToDatabase(ReportData data);
     }

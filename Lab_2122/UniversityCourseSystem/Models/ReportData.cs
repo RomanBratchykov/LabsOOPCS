@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lab_2122.UniversityCourseSystem.Models
 {
-    internal class ReportData
+    public class ReportData
     {
         public int CourseId { get; set; }
         public string CourseName { get; set; } = string.Empty;

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lab_2122.UniversityCourseSystem.Services.Interfaces
 {
-    internal interface IGradable
+    public interface IGradable
     {
         int MaxPoints { get; set; }
         decimal CalculateGrade(decimal pointsEarned);
