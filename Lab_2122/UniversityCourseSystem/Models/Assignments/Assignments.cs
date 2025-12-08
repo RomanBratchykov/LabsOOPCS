@@ -1,4 +1,5 @@
 ﻿using Lab_2122.UniversityCourseSystem.Services.Interfaces;
+using Spectre.Console;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,6 @@ namespace Lab_2122.UniversityCourseSystem.Models.Assignments
 {
     internal class Exam : Assignment, IGradable
     {
-        private readonly ILogger _logger;
-        public Exam(ILogger logger)
-        {
-            _logger = logger;
-        }
         public string ExamType { get; set; } = "Written"; 
         public int DurationMinutes { get; set; }
         public new int MaxPoints { get; set; }
@@ -21,7 +17,7 @@ namespace Lab_2122.UniversityCourseSystem.Models.Assignments
         public string GetDescription() => $"Exam '{Title}' of type '{ExamType}' lasting {DurationMinutes} minutes.";
         public override void Submit()
         {
-          _logger.Log($"Exam '{Title}' of type '{ExamType}' submitted.");
+            Console.WriteLine($"Exam '{Title}' of type '{ExamType}' submitted.");
         }
 
         public decimal CalculateGrade(decimal points) => points;
@@ -32,18 +28,13 @@ namespace Lab_2122.UniversityCourseSystem.Models.Assignments
     }
     internal class Project : Assignment, IGradable
     {
-        private readonly ILogger _logger;
-        public Project(ILogger logger)
-        {
-            _logger = logger;
-        }
         public int TeamSize { get; set; }
         public new int MaxPoints { get; set; }
 
         public string GetDescription() => $"Project '{Title}' with team size {TeamSize} ";
         public override void Submit()
         {
-            _logger.Log($"Project '{Title}' submitted.");
+            Console.WriteLine($"Project '{Title}' submitted.");
         }
 
         public decimal CalculateGrade(decimal points) => points;
@@ -54,17 +45,12 @@ namespace Lab_2122.UniversityCourseSystem.Models.Assignments
     }
     internal class Lab : Assignment, IGradable
     {
-        private readonly ILogger _logger;
-        public Lab(ILogger logger)
-        {
-            _logger = logger;
-        }
         public int LabNumber { get; set; }
         public new int MaxPoints { get; set; }
         public string GetDescription() => $"Lab '{Title}'with number '{LabNumber}' ";
         public override void Submit()
         {
-            _logger.Log($"Lab '{Title}' with number'{LabNumber}' submitted.");
+            Console.WriteLine($"Lab '{Title}' with number'{LabNumber}' submitted.");
         }
         public decimal CalculateGrade(decimal points) => points;
         public string GetFeedback()
@@ -74,11 +60,6 @@ namespace Lab_2122.UniversityCourseSystem.Models.Assignments
     }
     internal class Quiz : Assignment
     {
-        private readonly ILogger _logger;
-        public Quiz(ILogger logger)
-        {
-            _logger = logger;
-        }
         public bool isOptional { get; set; }
         public int AttemptCount { get; set; }
         public string GetDescription()
@@ -88,20 +69,15 @@ namespace Lab_2122.UniversityCourseSystem.Models.Assignments
         }
         public override void Submit()
         {
-            _logger.Log($"Quiz '{Title}' questions submitted.");
+            Console.WriteLine($"Quiz '{Title}' questions submitted.");
         }
         public void ShowCorrectAnswers()
         {
-            _logger.Log($"Showing correct answers for Quiz '{Title}'.");
+            Console.WriteLine($"Showing correct answers for Quiz '{Title}'.");
         }
     }
     internal class Survey : Assignment
     {
-        private readonly ILogger _logger;
-        public Survey(ILogger logger)
-        {
-            _logger = logger;
-        }
         public bool IsAnonymous { get; set; }
         public int QuestionCount { get; set; }
         public string GetDescription()
@@ -112,11 +88,11 @@ namespace Lab_2122.UniversityCourseSystem.Models.Assignments
         }
         public override void Submit()
         {
-            _logger.Log($"Survey '{Title}' responses submitted.");
+            Console.WriteLine($"Survey '{Title}' responses submitted.");
         }
         public void AnalyzeResponses()
         {
-            _logger.Log($"Analyzing responses for Survey '{Title}'.");
+            Console.WriteLine($"Analyzing responses for Survey '{Title}'.");
         }
     }
 }

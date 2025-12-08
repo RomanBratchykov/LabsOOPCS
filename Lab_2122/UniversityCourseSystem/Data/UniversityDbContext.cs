@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Lab_2122.UniversityCourseSystem.Models;
+using Lab_2122.UniversityCourseSystem.Models.Assignments;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Lab_2122.UniversityCourseSystem.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace Lab_2122.UniversityCourseSystem.Data
 {
@@ -32,6 +33,19 @@ namespace Lab_2122.UniversityCourseSystem.Data
                 optionsBuilder.UseSqlServer("Server=localhost;Database=UniversityDB;Trusted_Connection=True;TrustServerCertificate=True;");
             }
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<Assignment>()
+                .HasDiscriminator<string>("AssignmentType")
+                .HasValue<Lab>("Lab")
+                .HasValue<Exam>("Exam")
+                .HasValue<Project>("Project")
+                .HasValue<Survey>("Survey")
+                .HasValue<Quiz>("Quiz");
+
+            modelBuilder.Entity<Grade>().Property(g => g.Points).HasColumnType("decimal(5,2)");
+        }
     }
 }

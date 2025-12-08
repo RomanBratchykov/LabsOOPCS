@@ -15,15 +15,16 @@ class Program
     private static IServiceCollection _services;
     public static void Main(string[] args)
     {
-        _services.AddDbContext<UniversityDbContext>();
-        _services.AddScoped<IStudentRepository, StudentRepository>();
-        _services.AddScoped<ICourseRepository, CourseRepository>();
-        _services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
-        _services.AddTransient<IEmailSender, ConsoleEmailSender>();
-        _services.AddTransient<INotificationService, NotificationService>();
-        _services.AddSingleton<ILogger, ConsoleLogger>(); 
-        _services.AddTransient<CourseService>();
-        var serviceProvider = _services.BuildServiceProvider();
+        var services = new ServiceCollection();
+        services.AddDbContext<UniversityDbContext>();
+        services.AddScoped<IStudentRepository, StudentRepository>();
+        services.AddScoped<ICourseRepository, CourseRepository>();
+        services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
+        services.AddTransient<IEmailSender, ConsoleEmailSender>();
+        services.AddTransient<INotificationService, NotificationService>();
+        services.AddSingleton<ILogger, ConsoleLogger>(); 
+        services.AddTransient<CourseService>();
+        var serviceProvider = services.BuildServiceProvider();
         var courseService = serviceProvider.GetRequiredService<CourseService>();
         ConfigureServices(useRealDb: true, useRealEmail: false);
         SeedData(); 
@@ -158,16 +159,15 @@ class Program
 
         var assignmentService = _provider.GetRequiredService<AssignmentService>();
 
-        // Get logger instance from DI container
         var logger = _provider.GetRequiredService<ILogger>();
 
         var assignments = new List<Assignment>
         {
-            new Lab(logger) { Id = 1, Title = "Lab 1: Variables", MaxPoints = 100 },
-            new Exam(logger) { Id = 2, Title = "Midterm Exam", MaxPoints = 120 },
-            new Project(logger) { Id = 3, Title = "Final Project", MaxPoints = 200 },
-            new Survey(logger) { Id = 4, Title = "Course Feedback", IsAnonymous = true },
-            new Quiz(logger) { Id = 5, Title = "Self-check Quiz", isOptional = true }
+            new Lab() { Id = 1, Title = "Lab 1: Variables", MaxPoints = 100 },
+            new Exam() { Id = 2, Title = "Midterm Exam", MaxPoints = 120 },
+            new Project() { Id = 3, Title = "Final Project", MaxPoints = 200 },
+            new Survey() { Id = 4, Title = "Course Feedback", IsAnonymous = true },
+            new Quiz() { Id = 5, Title = "Self-check Quiz", isOptional = true }
         };
 
         AnsiConsole.MarkupLine("Course: [bold]CS101 - Programming Fundamentals[/]");
