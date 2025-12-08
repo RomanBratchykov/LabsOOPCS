@@ -95,23 +95,4 @@ namespace Lab_2122.UniversityCourseSystem.Models.Assignments
             _logger.Log($"Showing correct answers for Quiz '{Title}'.");
         }
     }
-    internal class Survey : Assignment
-    {
-        private readonly ILogger _logger;
-        public Survey(ILogger logger)
-        {
-            _logger = logger;
-        }
-        public string Topic { get; set; } = string.Empty;
-        public int QuestionCount { get; set; }
-        public string GetDescription() => $"Survey '{Title}' on topic '{Topic}' with '{QuestionCount}' questions.";
-        public override void Submit()
-        {
-            _logger.Log($"Survey '{Title}' on topic '{Topic}' submitted.");
-        }
-        public void GetResults()
-        {
-            _logger.Log($"Getting results for Survey '{Title}'.");
-        }
-    }
 }

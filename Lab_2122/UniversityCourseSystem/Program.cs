@@ -1,5 +1,6 @@
 ﻿using Lab_2122.UniversityCourseSystem.Data;
 using Lab_2122.UniversityCourseSystem.Models;
+using Lab_2122.UniversityCourseSystem.Models.Assignments;
 using Lab_2122.UniversityCourseSystem.Services;
 using Lab_2122.UniversityCourseSystem.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -13,28 +14,25 @@ public class Program
     public static void Main(string[] args)
     {
         var services = new ServiceCollection();
-
-        //services.AddDbContext<UniversityDbContext>(options =>
-        //    options.UseSqlServer("Server=localhost;Database=UniversityDB;Trusted_Connection=True;TrustServerS"));
-
-        // Реєстрація наших сервісів (SRP та DIP в дії)
+        services.AddSingleton<ILogger, ConsoleLogger>();
+        services.AddDbContext<UniversityDbContext>(options =>
+        options.UseSqlServer("Server=localhost;Database=UniversityDB;Trusted_Connection=True;TrustServerS"));
         services.AddScoped<IGradeRepository, GradeRepository>();
         services.AddTransient<IGradeCalculator, GradeCalculator>();
         services.AddTransient<INotificationService, EmailNotificationService>();
         services.AddTransient<IReportGenerator, PdfReportGenerator>();
-        services.AddSingleton<ILogger, ConsoleLogger>();
         services.AddTransient<CourseService>(); 
 
         var provider = services.BuildServiceProvider();
 
-        //using (var scope = provider.CreateScope())
-        //{
-        //    var db = scope.ServiceProvider.GetRequiredService<UniversityDbContext>();
-        //    db.Database.EnsureCreated();
-        //}
+        using (var scope = provider.CreateScope())
+        {
+            var db = scope.ServiceProvider.GetRequiredService<UniversityDbContext>();
+            db.Database.EnsureCreated();
+        }
 
         AnsiConsole.Write(new FigletText("Course Manager").Color(Color.Teal));
-        //var service = provider.GetRequiredService<CourseService>();
+        var service = provider.GetRequiredService<CourseService>();
 
         while (true)
         {
@@ -49,11 +47,11 @@ public class Program
             {
                 var courseId = AnsiConsole.Ask<int>("Enter Course ID (e.g. 1):");
 
-                //AnsiConsole.Progress()
-                //    .Start(ctx =>
-                //    {
-                //        service.ProcessFinalGrades(courseId, ctx);
-                //    });
+                AnsiConsole.Progress()
+                    .Start(ctx =>
+                    {
+                        service.ProcessFinalGrades(courseId, ctx);
+                    });
 
                 var table = new Table();
                 table.AddColumn("Status");

@@ -9,6 +9,8 @@ namespace Lab_2122.UniversityCourseSystem.Services.Interfaces
 {
     internal interface INotificationService
     {
-        void NotifyStudent(Student student, string message);
+        void NotifyStudentEnrolled(Student student, Course course);
+        void NotifyGradePublished(Student student, Grade grade);
+
     }
 }

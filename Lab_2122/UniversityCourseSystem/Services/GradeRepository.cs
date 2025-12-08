@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Lab_2122.UniversityCourseSystem.Services
 {
-    internal class GradeRepository : Interfaces.IGradeRepository
+    internal class GradeRepository : IGradeRepository
     {
         private readonly UniversityDbContext _context;
         public GradeRepository(UniversityDbContext context)
