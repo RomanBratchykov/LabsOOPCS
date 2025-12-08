@@ -1,4 +1,5 @@
-﻿using Lab_2122.UniversityCourseSystem.Services.Interfaces;
+﻿using Lab_2122.UniversityCourseSystem.Repositories;
+using Lab_2122.UniversityCourseSystem.Services.Interfaces;
 using Spectre.Console;
 using System;
 using System.Collections.Generic;
@@ -10,48 +11,39 @@ namespace Lab_2122.UniversityCourseSystem.Services
 {
     internal class CourseService
     {
-        private readonly IGradeCalculator _calculator;
-        private readonly IGradeRepository _repository;
-        private readonly INotificationService _notifier;
-        private readonly IReportGenerator _reporter;
+        private readonly IStudentRepository _studentRepo;
+        private readonly ICourseRepository _courseRepo;
+        private readonly IEnrollmentRepository _enrollmentRepo;
+        private readonly INotificationService _notificationService;
         private readonly ILogger _logger;
 
         public CourseService(
-            IGradeCalculator calculator,
-            IGradeRepository repository,
-            INotificationService notifier,
-            IReportGenerator reporter,
-            ILogger logger)
+        IStudentRepository studentRepo,
+        ICourseRepository courseRepo,
+        IEnrollmentRepository enrollmentRepo,
+        INotificationService notificationService,
+        ILogger logger)
         {
-            _calculator = calculator;
-            _repository = repository;
-            _notifier = notifier;
-            _reporter = reporter;
+            _studentRepo = studentRepo;
+            _courseRepo = courseRepo;
+            _enrollmentRepo = enrollmentRepo;
+            _notificationService = notificationService;
             _logger = logger;
         }
 
-        public void ProcessFinalGrades(int courseId, ProgressContext? ctx = null)
+        public void EnrollStudent(int studentId, int courseId)
         {
-            _logger.Log($"Starting processing for course {courseId}...");
+            var student = _studentRepo.GetById(studentId);
+            var course = _courseRepo.GetById(courseId);
 
-            var students = _repository.GetStudentsByCourse(courseId);
-            var task = ctx?.AddTask($"[green]Processing {students.Count} students...[/]");
-
-            foreach (var student in students)
+            if (student == null || course == null)
             {
-                decimal finalGrade = _calculator.CalculateFinalGrade(student.Grades.ToList());
-
-                _repository.SaveFinalGrade(student.Id, courseId, finalGrade);
-
-                _notifier.NotifyStudent(student, $"Your final grade is: {finalGrade}");
-
-                task?.Increment(100.0 / students.Count);
-                Thread.Sleep(100);
+                _logger.LogWarning("Invalid student or course");
+                return;
             }
 
-            _reporter.GenerateReport(courseId, students);
-
-            _logger.Log("Processing completed successfully.");
+            _enrollmentRepo.Enroll(studentId, courseId);
+            _notificationService.NotifyStudentEnrolled(student, course);
+            _logger.Log($"Student {studentId} enrolled in {courseId}");
         }
-    }
 }
