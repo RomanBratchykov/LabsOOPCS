@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lab_2122.UniversityCourseSystem.Services
 {
-    internal class GradeRepository
+    internal class GradeRepository : Interfaces.IGradeRepository
     {
     }
 }
