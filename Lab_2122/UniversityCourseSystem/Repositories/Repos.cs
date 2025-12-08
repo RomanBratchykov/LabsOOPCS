@@ -178,13 +178,6 @@ namespace Lab_2122.UniversityCourseSystem.Repositories
         }
     }
 
-public class ConsoleLogger : ILogger
-{
-    public void Log(string message) => Console.WriteLine($"[LOG] {message}");
-    public void LogInformation(string message) => Console.WriteLine($"[INFO] {message}");
-    public void LogError(string message, Exception ex) => Console.WriteLine($"[ERROR] {message}:{ex}");
-    public void LogWarning(string message) => Console.WriteLine($"[WARN] {message}");
-}
 
     public class FileLogger : ILogger
     {
@@ -208,7 +201,6 @@ public class ConsoleLogger : ILogger
         {
             File.AppendAllText(_filePath, $"[ERROR] {DateTime.Now}: {message}:{ex}\n");
         }
-    }
     public void LogWarning(string message)
         {
             File.AppendAllText(_filePath, $"[WARN] {DateTime.Now}: {message}\n");

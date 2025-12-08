@@ -46,4 +46,14 @@ namespace Lab_2122.UniversityCourseSystem.Services
             _notificationService.NotifyStudentEnrolled(student, course);
             _logger.Log($"Student {studentId} enrolled in {courseId}");
         }
-}
+        public void ProcessFinalGrades(int courseId, ProgressContext ctx)
+        {
+            var task = ctx.AddTask($"Processing final grades for Course ID {courseId}");
+            for (int i = 0; i <= 100; i += 10)
+            {
+                task.Value = i;
+                System.Threading.Thread.Sleep(50);
+            }
+            _logger.Log($"Final grades processed for Course ID {courseId}.");
+        }
+    }}

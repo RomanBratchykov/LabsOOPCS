@@ -95,4 +95,28 @@ namespace Lab_2122.UniversityCourseSystem.Models.Assignments
             _logger.Log($"Showing correct answers for Quiz '{Title}'.");
         }
     }
+    internal class Survey : Assignment
+    {
+        private readonly ILogger _logger;
+        public Survey(ILogger logger)
+        {
+            _logger = logger;
+        }
+        public bool IsAnonymous { get; set; }
+        public int QuestionCount { get; set; }
+        public string GetDescription()
+
+        {  
+            string state = IsAnonymous ? "anonymous" : "identified";
+            return $"Survey '{Title}' with '{QuestionCount}' questions. was {state}";
+        }
+        public override void Submit()
+        {
+            _logger.Log($"Survey '{Title}' responses submitted.");
+        }
+        public void AnalyzeResponses()
+        {
+            _logger.Log($"Analyzing responses for Survey '{Title}'.");
+        }
+    }
 }

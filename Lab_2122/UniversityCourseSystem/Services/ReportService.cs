@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Lab_2122.UniversityCourseSystem.Services
 {
@@ -84,12 +85,12 @@ namespace Lab_2122.UniversityCourseSystem.Services
 
             if (selectedGenerator is IEmailSender emailSender)
             {
-                actions.Add("Send Email", () => emailSender.SendEmail("prof@uni.edu", "Report", "Attached"));
+                actions.Add("Send Email", () => emailSender.SendEmail("prof@uni.edu", Encoding.UTF8.GetBytes("Report"), "Attached"));
             }
 
             if (selectedGenerator is IDatabaseSaver dbSaver && fileString != null)
             {
-                actions.Add("Save to DB", () => dbSaver.SaveToDatabase(fileString));
+                actions.Add("Save to DB", () => dbSaver.SaveToDatabase(data));
             }
 
             if (_cloudUploaders.Any())

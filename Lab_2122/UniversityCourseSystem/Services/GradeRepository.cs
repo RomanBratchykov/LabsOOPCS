@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Lab_2122.UniversityCourseSystem.Services.Interfaces;
 
 namespace Lab_2122.UniversityCourseSystem.Services
 {
